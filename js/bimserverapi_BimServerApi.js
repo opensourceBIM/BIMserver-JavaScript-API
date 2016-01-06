@@ -788,6 +788,5 @@ define(function(require) {
     	};
 
     	othis.webSocket.listener = othis.processNotification;
-    }
-};
+    };
 });
