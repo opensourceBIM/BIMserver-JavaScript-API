@@ -1,6 +1,6 @@
 {
   "name": "bimserverapi",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "description": "A JavaScript API for the OpenSource BIMserver",
   "author": {
     "name": "Ruben de Laat",
