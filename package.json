@@ -28,6 +28,5 @@
   "private": false,
   "analyze": true,
   "license": "GNU Affero General Public License",
-  "readme": "BIMserver README, to be done",
   "readmeFilename": "README.md"
 }
