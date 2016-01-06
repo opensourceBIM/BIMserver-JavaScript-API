@@ -1,0 +1,33 @@
+{
+  "name": "bimserverapi",
+  "version": "0.5",
+  "description": "A JavaScript API for the OpenSource BIMserver",
+  "author": {
+    "name": "Ruben de Laat",
+    "email": "ruben@logic-labs.nl"
+  },
+  "scripts": {},
+  "files": [
+    "js"
+  ],
+  "main": "js/bimserverapi_BimServerApi.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/opensourceBIM/BIMserver-JavaScript-API"
+  },
+  "bugs": {
+    "url": "https://github.com/opensourceBIM/BIMserver-JavaScript-API/issues"
+  },
+  "keywords": [],
+  "dependencies": {
+    "xhr2": "*",
+    "requirejs": "*"
+  },
+  "devDependencies": {},
+  "preferGlobal": true,
+  "private": false,
+  "analyze": true,
+  "license": "GNU Affero General Public License",
+  "readme": "BIMserver README, to be done",
+  "readmeFilename": "README.md",
+}
