@@ -28,5 +28,6 @@
   "private": false,
   "analyze": true,
   "license": "GNU Affero General Public License",
-  "readmeFilename": "README.md"
+  "readmeFilename": "README.md",
+  "tonicExampleFilename": "tonicExample.js"
 }
