@@ -5,14 +5,14 @@ module.exports = function(grunt) {
 		concat : {
 			js : {
 				files : {
-					"output/bimserverapi.js" : [ "js/*.js" ]
+					"output/bimserverapi-%VERSION%.js" : [ "js/*.js" ]
 				},
 			}
 		},
 		uglify : {
 			dist : {
 				files : {
-					"output/bimserverapi.min.js" : [ "output/bimserverapi.js" ]
+					"output/bimserverapi-%VERSION%.min.js" : [ "output/bimserverapi-%VERSION%.js" ]
 				}
 			}
 		},
@@ -24,8 +24,8 @@ module.exports = function(grunt) {
 					password : "%PASSWORD%"
 				},
 				release : {
-					tag_name : "0.0.%VERSION%",
-					name : "BIMServer JavaScript API",
+					tag_name : "%VERSION%",
+					name : "BIMServer JavaScript API %VERSION%",
 					body : "Testing...",
 					draft : false,
 					prerelease : true
