@@ -32,8 +32,8 @@ module.exports = function(grunt) {
               }
             },
             files: {
-              'dest': ['js/bimserverapi.min.js', "js/bimserverapi.js"],
-            },
+              'dest': ['js/bimserverapi.min.js', "js/bimserverapi.js"]
+            }
         }
     });
 
