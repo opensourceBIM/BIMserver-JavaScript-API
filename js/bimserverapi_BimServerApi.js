@@ -10,7 +10,7 @@ if (typeof define !== 'function') {
 }
 
 define(function(require) {
-//    var dep = require('dependency');
+    var BimServerWebSocket = require("bimserverapi_BimServerWebSocket");
 
     return function(baseUrl, notifier) {
     	var othis = this;
