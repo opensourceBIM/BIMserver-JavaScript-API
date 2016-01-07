@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 		},
 		zip: {
 			"output/bimserverapi-source-%VERSION%.zip": ["js/*.js"]
-		},
+		}
 		"github-release" : {
 			options : {
 				repository : "opensourceBIM/BIMserver-JavaScript-API",
@@ -43,6 +43,7 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-github-releaser");
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-zip");
 
 	grunt.registerTask("default", [ "concat", "uglify", "zip", "github-release" ]);
 };
