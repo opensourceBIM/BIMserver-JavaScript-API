@@ -20,8 +20,8 @@ module.exports = function(grunt) {
             options: {
               repository: 'opensourceBIM/BIMserver-JavaScript-API',
               auth: {
-                user: '$USERNAME$',
-                password: '$PASSWORD$'
+                user: '%USERNAME%',
+                password: '%PASSWORD%'
               },
               release: {
                 tag_name: 'version1',
