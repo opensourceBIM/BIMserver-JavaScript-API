@@ -1,45 +1,45 @@
 module.exports = function(grunt) {
 
-    grunt.initConfig({
-        pkg: grunt.file.readJSON("package.json"),
-        concat: {
-            js: {
-                files: {
-                    "js/bimserverapi.js": ["js/*.js"]
-                },
-            }
-        },
-        uglify: {
-            dist: {
-                files: {
-                    "js/bimserverapi.min.js": ["js/bimserverapi.js"]
-                }
-            }
-        },
-        "github-release": {
-            options: {
-              repository: 'opensourceBIM/BIMserver-JavaScript-API',
-              auth: {
-                user: '%USERNAME%',
-                password: '%PASSWORD%'
-              },
-              release: {
-                tag_name: 'version1',
-                name: 'jelly-bean',
-                body: 'Description of the release',
-                draft: false, 
-                prerelease: true
-              }
-            },
-            files: {
-              src: ['js/bimserverapi.min.js', "js/bimserverapi.js"]
-            }
-        }
-    });
+	grunt.initConfig({
+		pkg : grunt.file.readJSON("package.json"),
+		concat : {
+			js : {
+				files : {
+					"output/bimserverapi.js" : [ "js/*.js" ]
+				},
+			}
+		},
+		uglify : {
+			dist : {
+				files : {
+					"output/bimserverapi.min.js" : [ "output/bimserverapi.js" ]
+				}
+			}
+		},
+		"github-release" : {
+			options : {
+				repository : "opensourceBIM/BIMserver-JavaScript-API",
+				auth : {
+					user : "%USERNAME%",
+					password : "%PASSWORD%"
+				},
+				release : {
+					tag_name : "0.0.8",
+					name : "BIMServer JavaScript API",
+					body : "Testing...",
+					draft : false,
+					prerelease : true
+				}
+			},
+			files : {
+				src : [ "output/bimserverapi.min.js", "output/bimserverapi.js" ]
+			}
+		}
+	});
 
-    grunt.loadNpmTasks("grunt-github-releaser");
-    grunt.loadNpmTasks("grunt-contrib-concat");
-    grunt.loadNpmTasks("grunt-contrib-uglify");
+	grunt.loadNpmTasks("grunt-github-releaser");
+	grunt.loadNpmTasks("grunt-contrib-concat");
+	grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    grunt.registerTask("default", ["concat", "uglify", "github-release"]);
+	grunt.registerTask("default", [ "concat", "uglify", "github-release" ]);
 };
