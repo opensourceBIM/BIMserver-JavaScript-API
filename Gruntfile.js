@@ -24,7 +24,7 @@ module.exports = function(grunt) {
 					password : "%PASSWORD%"
 				},
 				release : {
-					tag_name : "0.0.8",
+					tag_name : "0.0.%VERSION%",
 					name : "BIMServer JavaScript API",
 					body : "Testing...",
 					draft : false,
