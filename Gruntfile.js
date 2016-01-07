@@ -16,7 +16,7 @@ module.exports = function(grunt) {
                 }
             }
         },
-        github-release: {
+        github_release: {
             options: {
               repository: 'opensourceBIM/BIMserver-JavaScript-API',
               auth: {
@@ -41,5 +41,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-uglify");
 
-    grunt.registerTask("default", ["concat", "uglify", "github-release"]);
+    grunt.registerTask("default", ["concat", "uglify", "github_release"]);
 };
