@@ -12,7 +12,7 @@ module.exports = function(grunt) {
         uglify: {
             dist: {
                 files: {
-                    "js/bimserverapi.min.js": ["bimserverapi.js"]
+                    "js/bimserverapi.min.js": ["js/bimserverapi.js"]
                 }
             }
         }
