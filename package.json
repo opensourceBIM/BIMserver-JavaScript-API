@@ -27,7 +27,7 @@
   "preferGlobal": true,
   "private": false,
   "analyze": true,
-  "license": "GNU Affero General Public License",
+  "license": "AGPL-3.0",
   "readmeFilename": "README.md",
   "tonicExampleFilename": "tonicExample.js"
 }
