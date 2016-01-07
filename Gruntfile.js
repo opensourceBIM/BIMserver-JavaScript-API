@@ -32,7 +32,7 @@ module.exports = function(grunt) {
               }
             },
             files: {
-              'dest': ['release.zip'],
+              'dest': ['js/bimserverapi.min.js', "js/bimserverapi.js"],
             },
           }
     });
@@ -43,5 +43,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-css");
     grunt.loadNpmTasks("grunt-contrib-clean");
 
-    grunt.registerTask("default", ["concat", "uglify"]);
+    grunt.registerTask("default", ["concat", "uglify", "github_releaser"]);
 };
