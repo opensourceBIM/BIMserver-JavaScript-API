@@ -1,4 +1,8 @@
-define([], function(){
+if (typeof define !== 'function') {
+    var define = require('amdefine')(module);
+}
+
+define(function(require) {
 	return function(baseUrl, bimServerApi) {
 		var othis = this;
 		this.connected = false;
