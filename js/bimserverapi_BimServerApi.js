@@ -2,7 +2,7 @@
 
 // NodeJS stuff
 if (typeof XMLHttpRequest === 'undefined') {
-	XMLHttpRequest = require("xhr2");
+	var XMLHttpRequest = require("xhr2");
 }
 
 if (typeof define !== 'function') {
