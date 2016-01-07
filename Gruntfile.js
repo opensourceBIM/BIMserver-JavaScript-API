@@ -18,7 +18,7 @@ module.exports = function(grunt) {
 		},
 		zip: {
 			"output/bimserverapi-source-%VERSION%.zip": ["js/*.js"]
-		}
+		},
 		"github-release" : {
 			options : {
 				repository : "opensourceBIM/BIMserver-JavaScript-API",
