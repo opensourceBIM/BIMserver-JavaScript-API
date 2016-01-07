@@ -16,6 +16,9 @@ module.exports = function(grunt) {
 				}
 			}
 		},
+		zip: {
+			"output/bimserverapi-source-%VERSION%.zip": ["js/*.js"]
+		}
 		"github-release" : {
 			options : {
 				repository : "opensourceBIM/BIMserver-JavaScript-API",
@@ -32,7 +35,7 @@ module.exports = function(grunt) {
 				}
 			},
 			files : {
-				src : [ "output/bimserverapi.min.js", "output/bimserverapi.js" ]
+				src : [ "output/bimserverapi-%VERSION%.min.js", "output/bimserverapi-%VERSION%.js", "output/bimserverapi-source-%VERSION%.zip" ]
 			}
 		}
 	});
@@ -41,5 +44,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-concat");
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 
-	grunt.registerTask("default", [ "concat", "uglify", "github-release" ]);
+	grunt.registerTask("default", [ "concat", "uglify", "zip", "github-release" ]);
 };
