@@ -27,7 +27,7 @@
     "grunt": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-nodeunit": "*",
-    "grunt-contrib-uglify": "*"
+    "grunt-contrib-uglify": "*",
     "grunt-contrib-concat": "*"
   },
   "preferGlobal": true,
