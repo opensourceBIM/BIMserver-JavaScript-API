@@ -1,7 +1,7 @@
 "use strict"
 
 // NodeJS stuff
-if (typeof variable === 'undefined') {
+if (typeof XMLHttpRequest === 'undefined') {
 	XMLHttpRequest = require("xhr2");
 }
 
