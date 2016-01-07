@@ -40,8 +40,6 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-github-releaser");
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-uglify");
-    grunt.loadNpmTasks("grunt-css");
-    grunt.loadNpmTasks("grunt-contrib-clean");
 
     grunt.registerTask("default", ["concat", "uglify", "github_releaser"]);
 };
