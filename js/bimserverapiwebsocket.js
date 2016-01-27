@@ -46,7 +46,7 @@ module.exports = function(baseUrl, bimServerApi) {
 	};
 
 	this._onopen = function() {
-		othis.intervalId = window.setInterval(function(){
+		othis.intervalId = setInterval(function(){
 			othis.send({"hb": true});
 		}, 30 * 1000); // Send hb every 30 seconds
 		while (othis.tosendAfterConnect.length > 0 && othis._ws.readyState == 1) {
@@ -116,7 +116,7 @@ module.exports = function(baseUrl, bimServerApi) {
 
 	this._onclose = function(m) {
 		console.log("WebSocket closed");
-		window.clearInterval(othis.intervalId);
+		clearInterval(othis.intervalId);
 		othis._ws = null;
 		othis.connected = false;
 		othis.openCallbacks = [];
