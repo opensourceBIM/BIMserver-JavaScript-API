@@ -1,6 +1,8 @@
 "use strict"
 
 module.exports = function(baseUrl, bimServerApi) {
+	var WebSocket = require("websocket").client
+	
 	var othis = this;
 	this.connected = false;
 	this.openCallbacks = [];
@@ -18,19 +20,22 @@ module.exports = function(baseUrl, bimServerApi) {
 			console.error("Callback was not a function", callback);
 		}
 		var location = bimServerApi.baseUrl.toString().replace('http://', 'ws://').replace('https://', 'wss://') + "/stream";
-		if ("WebSocket" in window) {
-			try {
-				this._ws = new WebSocket(location);
-				this._ws.binaryType = "arraybuffer";
-				this._ws.onopen = this._onopen;
-				this._ws.onmessage = this._onmessage;
-				this._ws.onclose = this._onclose;
-				this._ws.onerror = this._onerror;
-			} catch (err) {
-				bimServerApi.notifier.setError("WebSocket error" + (err.message != null ? (": " + err.message) : ""));
+		if (WebSocket == null) {
+			if ("WebSocket" in window) {
+				WebSocket = window.WebSocket;
+			} else {
+				bimServerApi.notifier.setError("This browser does not support websockets <a href=\"https://github.com/opensourceBIM/bimvie.ws/wiki/Requirements\"></a>");
 			}
-		} else {
-			bimServerApi.notifier.setError("This browser does not support websockets <a href=\"https://github.com/opensourceBIM/bimvie.ws/wiki/Requirements\"></a>");
+		}
+		try {
+			this._ws = new WebSocket(location);
+			this._ws.binaryType = "arraybuffer";
+			this._ws.onopen = this._onopen;
+			this._ws.onmessage = this._onmessage;
+			this._ws.onclose = this._onclose;
+			this._ws.onerror = this._onerror;
+		} catch (err) {
+			bimServerApi.notifier.setError("WebSocket error" + (err.message != null ? (": " + err.message) : ""));
 		}
 	};
 
