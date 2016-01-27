@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = function() {
+module.exports = function(counter) {
 	var o = this;
 	
 	o.isDone = false;
