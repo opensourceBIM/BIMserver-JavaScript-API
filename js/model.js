@@ -259,7 +259,7 @@ module.exports = function(bimServerApi, poid, roid, schema) {
 					wrapperClass["get" + fieldName.firstUpper()] = function(callback) {
 						var object = this.object;
 						var model = this.model;
-						var promise = new BimServerPromise();
+						var promise = new BimServerApiPromise();
 						if (object[fieldName] != null) {
 							if (field.many) {
 								object[fieldName].forEach(function(item){
@@ -510,7 +510,7 @@ module.exports = function(bimServerApi, poid, roid, schema) {
 	};
 
 	this.getByX = function(methodName, keyname, fetchingMap, targetMap, interfaceMethodName, interfaceFieldName, getValueMethod, list, callback) {
-		var promise = new BimServerPromise();
+		var promise = new BimServerApiPromise();
 		if (typeof list == "string" || typeof list == "number") {
 			list = [list];
 		}
@@ -614,7 +614,7 @@ module.exports = function(bimServerApi, poid, roid, schema) {
 	};
 
 	this.query = function(query, callback){
-		var promise = new BimServerPromise();
+		var promise = new BimServerApiPromise();
 		var fullTypesLoading = {};
 		query.queries.forEach(function(subQuery){
 			if (subQuery.type != null) {
@@ -680,7 +680,7 @@ module.exports = function(bimServerApi, poid, roid, schema) {
 	};
 
 	this.queryNew = function(query, callback){
-		var promise = new BimServerPromise();
+		var promise = new BimServerApiPromise();
 		var fullTypesLoading = {};
 		if (query.queries != null) {
 			query.queries.forEach(function(subQuery){
@@ -752,7 +752,7 @@ module.exports = function(bimServerApi, poid, roid, schema) {
 	};
 	
 	this.getAllOfType = function(type, includeAllSubTypes, callback) {
-		var promise = new BimServerPromise();
+		var promise = new BimServerApiPromise();
 		othis.waitForLoaded(function(){
 			if (othis.loadedDeep) {
 				for (var oid in othis.objects) {
