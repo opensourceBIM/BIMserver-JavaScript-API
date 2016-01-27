@@ -443,6 +443,7 @@ define(function(require) {
     	};
     	
     	this.getJson = function(address, data, success, error){
+    		console.log("q");
     		var xhr = new XMLHttpRequest();
     		xhr.open("POST", address);
     		xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
@@ -460,6 +461,7 @@ define(function(require) {
     		    		}
     		    	}
     		    } else {
+    		    	console.log(xhr.status);
     		    	if (error != null) {
     		    		error(jqXHR, textStatus, errorThrown);
     		    	} else {

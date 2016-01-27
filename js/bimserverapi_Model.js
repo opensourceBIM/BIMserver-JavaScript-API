@@ -1,3 +1,5 @@
+"use strict"
+
 define(["bimserverapi_BimServerApiPromise"], function(BimServerPromise){
 	return function(bimServerApi, poid, roid, schema) {
 		var othis = this;

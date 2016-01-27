@@ -1,3 +1,5 @@
+"use strict"
+
 define(function(){
 	return {
 		GETDATAOBJECTSBYTYPE_BUSY: "Loading objects",
@@ -48,6 +50,12 @@ define(function(){
 		GETUSERSETTINGS_BUSY: "Getting user settings",
 		GETALLQUERYENGINES_BUSY: "Getting query engines",
 		REGISTERNEWPROJECTHANDLER_BUSY: "Registering for updates on new projects",
-		ADDUSER_BUSY: "Adding user..."
+		ADDUSER_BUSY: "Adding user...",
+		GETAVAILABLEPLUGINBUNDLES_BUSY: "Loading available plugins, this can take a while...",
+		GETAVAILABLEPLUGINBUNDLES_DONE: "Done loading available plugins",
+		INSTALLPLUGINBUNDLE_BUSY: "Installing plugin...",
+		INSTALLPLUGINBUNDLE_DONE: "Plugin successfully installed",
+		GETPLUGININFORMATION_BUSY: "Getting plugin information, this can take a while for large plugins...",
+		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved"
 	}
 });
