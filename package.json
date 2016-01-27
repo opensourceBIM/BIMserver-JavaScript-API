@@ -10,7 +10,7 @@
   "files": [
     "js"
   ],
-  "main": "js/bimserverapi_BimServerApi.js",
+  "main": "js/index.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/opensourceBIM/BIMserver-JavaScript-API"
