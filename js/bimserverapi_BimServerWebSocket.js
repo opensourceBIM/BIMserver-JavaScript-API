@@ -1,10 +1,6 @@
 "use strict"
 
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
-
-define(function(require) {
+module.exports = function() {
 	return function(baseUrl, bimServerApi) {
 		var othis = this;
 		this.connected = false;

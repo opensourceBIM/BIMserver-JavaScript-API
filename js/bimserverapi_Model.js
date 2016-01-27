@@ -1,6 +1,6 @@
 "use strict"
 
-define(["bimserverapi_BimServerApiPromise"], function(BimServerPromise){
+module.exports = function() {
 	return function(bimServerApi, poid, roid, schema) {
 		var othis = this;
 		othis.schema = schema;

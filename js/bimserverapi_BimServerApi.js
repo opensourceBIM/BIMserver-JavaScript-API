@@ -1,15 +1,8 @@
 "use strict"
 
-// NodeJS stuff
-if (typeof XMLHttpRequest === 'undefined') {
-	var XMLHttpRequest = require("xhr2");
-}
+var XMLHttpRequest = require("xhr2");
 
-if (typeof define !== 'function') {
-    var define = require('amdefine')(module);
-}
-
-define(function(require) {
+module.exports = function() {
     var BimServerWebSocket = require("bimserverapi_BimServerWebSocket");
 
     return function(baseUrl, notifier) {

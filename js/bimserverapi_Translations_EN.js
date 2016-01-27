@@ -1,6 +1,6 @@
 "use strict"
 
-define(function(){
+module.exports = function() {
 	return {
 		GETDATAOBJECTSBYTYPE_BUSY: "Loading objects",
 		REQUESTPASSWORDCHANGE_BUSY: "Busy sending password reset e-mail",

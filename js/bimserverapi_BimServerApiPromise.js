@@ -1,6 +1,6 @@
 "use strict"
 
-define(function(){
+module.exports = function() {
 	return function(counter){
 		var o = this;
 		
