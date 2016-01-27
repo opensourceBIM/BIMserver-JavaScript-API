@@ -458,6 +458,7 @@ module.exports = function(baseUrl, notifier) {
 		    	}
 		    } else {
 		    	if (error != null) {
+		    		console.error(jqXHR, textStatus, errorThrown);
 		    		error(jqXHR, textStatus, errorThrown);
 		    	} else {
 		    		othis.notifier.setError(textStatus);
