@@ -58,4 +58,4 @@ module.exports = function() {
 		GETPLUGININFORMATION_BUSY: "Getting plugin information, this can take a while for large plugins...",
 		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved"
 	}
-});
+};

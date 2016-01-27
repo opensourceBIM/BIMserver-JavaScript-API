@@ -784,4 +784,4 @@ module.exports = function() {
 
     	othis.webSocket.listener = othis.processNotification;
     };
-});
+};

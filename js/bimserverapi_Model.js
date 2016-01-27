@@ -843,4 +843,4 @@ module.exports = function() {
 			return promise;
 		};
 	}
-});
+};
