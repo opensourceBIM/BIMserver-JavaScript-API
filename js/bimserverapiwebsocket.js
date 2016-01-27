@@ -1,7 +1,7 @@
 "use strict"
 
 module.exports = function(baseUrl, bimServerApi) {
-	var WebSocket = require("websocket").client
+	var WebSocket = require("websocket").w3cwebsocket
 	
 	var othis = this;
 	this.connected = false;
@@ -35,6 +35,7 @@ module.exports = function(baseUrl, bimServerApi) {
 			this._ws.onclose = this._onclose;
 			this._ws.onerror = this._onerror;
 		} catch (err) {
+			console.error(err);
 			bimServerApi.notifier.setError("WebSocket error" + (err.message != null ? (": " + err.message) : ""));
 		}
 	};
