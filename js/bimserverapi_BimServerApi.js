@@ -3,7 +3,7 @@
 var XMLHttpRequest = require("xhr2");
 
 module.exports = function() {
-    var BimServerWebSocket = require("bimserverapi_BimServerWebSocket");
+    var BimServerWebSocket = require("bimserverapi_BimServerWebSocket.js");
 
     return function(baseUrl, notifier) {
     	var othis = this;
