@@ -689,7 +689,7 @@ module.exports = function(baseUrl, notifier) {
 				}
 			}
 		}, false);
-		xhr.open("POST", Global.bimServerApi.baseUrl + "/upload");
+		xhr.open("POST", othis.baseUrl + "/upload");
 
 		var FormData = require("form-data");
 		
@@ -712,7 +712,7 @@ module.exports = function(baseUrl, notifier) {
 			var result = JSON.parse(this.response);
 			
 			if (result.exception == null) {
-				Global.bimServerApi.call("Bimsie1ServiceInterface", "addExtendedDataToRevision", {
+				othis.call("Bimsie1ServiceInterface", "addExtendedDataToRevision", {
 					roid: roid,
 					extendedData: {
 						__type: "SExtendedData",
@@ -727,7 +727,7 @@ module.exports = function(baseUrl, notifier) {
 				error(result.exception);
 			}
 		}, false);
-		xhr.open("POST", Global.bimServerApi.baseUrl + "/upload");
+		xhr.open("POST", othis.baseUrl + "/upload");
 		reader.onload = function(evt) {
 			var formData = new FormData();
 			formData.append("action", "file");
