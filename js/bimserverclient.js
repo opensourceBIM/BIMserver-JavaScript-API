@@ -694,6 +694,9 @@ module.exports = function(baseUrl, notifier) {
 		var FormData = require("form-data");
 		
 		var formData = new FormData();
+		
+		console.log(othis.token, deserializerOid, comment, project.oid, topicId, file);
+		
 		formData.append("token", othis.token);
 		formData.append("deserializerOid", deserializerOid);
 		formData.append("comment", comment);
