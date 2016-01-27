@@ -2,6 +2,9 @@
 
 module.exports = function(bimServerApi, poid, roid, schema) {
 	var othis = this;
+
+	var BimServerApiPromise = require("./bimserverapipromise.js");
+	
 	othis.schema = schema;
 	othis.bimServerApi = bimServerApi;
 	othis.poid = poid;
