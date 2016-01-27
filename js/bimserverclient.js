@@ -440,7 +440,6 @@ module.exports = function(baseUrl, notifier) {
 	};
 	
 	this.getJson = function(address, data, success, error){
-		console.log("q");
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", address);
 		xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
@@ -458,7 +457,6 @@ module.exports = function(baseUrl, notifier) {
 		    		}
 		    	}
 		    } else {
-		    	console.log(xhr.status);
 		    	if (error != null) {
 		    		error(jqXHR, textStatus, errorThrown);
 		    	} else {
