@@ -21,7 +21,8 @@
   "keywords": [],
   "dependencies": {
     "xhr2": "*",
-    "requirejs": "*"
+    "requirejs": "*",
+    "websocket": "*"
   },
   "devDependencies": {
     "grunt": "*",
