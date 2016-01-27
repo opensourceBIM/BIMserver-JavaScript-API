@@ -5,6 +5,13 @@ var XMLHttpRequest = require("xhr2");
 module.exports = function(baseUrl, notifier) {
 	var othis = this;
 	
+	var BimServerWebSocket = require("./bimserverapiwebsocket.js");
+	var Model = require("./model.js");
+	var BimServerApiPromise = require("./bimserverapipromise.js");
+	var ifc2x3tc1 = require("./ifc2x3tc1.js");
+	var ifc4 = require("./ifc4.js");
+	var translations = require("./translations_en.js");
+	
 	othis.interfaceMapping = {
 		"ServiceInterface": "org.bimserver.ServiceInterface",
 		"AuthInterface": "org.bimserver.AuthInterface",
