@@ -446,7 +446,6 @@ module.exports = function(baseUrl, notifier) {
 		xhr.onload = function(jqXHR, textStatus, errorThrown) {
 		    if (xhr.status === 200) {
 		    	try {
-		    		console.log(xhr.responseText);
 		    		var data = JSON.parse(xhr.responseText);
 		    		success(data);
 		    	} catch (e) {
@@ -454,13 +453,10 @@ module.exports = function(baseUrl, notifier) {
 		    			error(e);
 		    		} else {
 		    			othis.notifier.setError(e);
-		    			console.error(e);
 		    		}
 		    	}
 		    } else {
-		    	console.error("HTTP status code: " + xhr.status);
 		    	if (error != null) {
-		    		console.error(jqXHR, textStatus, errorThrown);
 		    		error(jqXHR, textStatus, errorThrown);
 		    	} else {
 		    		othis.notifier.setError(textStatus);
