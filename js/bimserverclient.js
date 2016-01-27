@@ -691,6 +691,8 @@ module.exports = function(baseUrl, notifier) {
 		}, false);
 		xhr.open("POST", Global.bimServerApi.baseUrl + "/upload");
 
+		var FormData = require("form-data");
+		
 		var formData = new FormData();
 		formData.append("token", othis.token);
 		formData.append("deserializerOid", deserializerOid);
