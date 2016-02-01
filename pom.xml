@@ -9,23 +9,15 @@
 	</properties>
 	<description>JavaScript API for BIMserver</description>
 	<build>
+		<resources>
+			<resource>
+				<directory>output</directory>
+			</resource>
+			<resource>
+				<directory>plugin</directory>
+			</resource>
+		</resources>
 		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptor>assembly.xml</descriptor>
-					<finalName>bimserverapi-${pom.version}</finalName>
-				</configuration>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>single</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
 				<groupId>org.sonatype.plugins</groupId>
 				<artifactId>nexus-staging-maven-plugin</artifactId>
