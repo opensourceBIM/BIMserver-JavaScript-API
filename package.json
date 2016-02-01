@@ -25,7 +25,8 @@
   "dependencies": {
     "xhr2": "*",
     "requirejs": "*",
-    "websocket": "*"
+    "websocket": "*",
+    "form-data": "*"
   },
   "devDependencies": {
     "grunt": "*",
