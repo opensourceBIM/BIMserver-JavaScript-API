@@ -11,10 +11,11 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>output</directory>
+				<directory>../output</directory>
 			</resource>
 			<resource>
 				<directory>plugin</directory>
+				<targetPath>plugin</targetPath>
 			</resource>
 		</resources>
 		<plugins>
