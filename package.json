@@ -1,5 +1,8 @@
 {
   "name": "bimserverapi",
+  "groupId": "org.opensourcebim",
+  "artifactId": "javascriptapi",
+  "organization": "OpenSource BIM",
   "version": "%VERSION%",
   "description": "A JavaScript API for the OpenSource BIMserver",
   "author": {
