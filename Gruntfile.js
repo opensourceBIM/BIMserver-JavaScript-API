@@ -54,5 +54,5 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks("grunt-contrib-uglify");
 	grunt.loadNpmTasks("grunt-zip");
 
-	grunt.registerTask("default", [ "concat", "uglify", "zip", "github-release" ]);
+	grunt.registerTask("default", [ "concat", "uglify"]);
 };
