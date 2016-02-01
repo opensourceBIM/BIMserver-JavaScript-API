@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PluginDescriptor>
+	<PluginImplementation>
+		<interfaceClass>org.bimserver.plugins.web.WebModulePlugin</interfaceClass>
+		<implementationJson>javascriptapi.json</implementationJson>
+		<description>JavaScript API for BIMserver</description>
+		<enabled>true</enabled>
+	</PluginImplementation>
+</PluginDescriptor>
