@@ -1,16 +1,45 @@
 "use strict"
 
-var XMLHttpRequest = require("xhr2");
+if (typeof XMLHttpRequest != "function") {
+	var XMLHttpRequest = require("xhr2");
+}
 
-module.exports = function(baseUrl, notifier) {
+var BimServerApiPromise = null;
+var ifc2x3tc1 = null;
+var ifc4 = null;
+var Model = null;
+
+var BimServerClient = function(baseUrl, notifier) {
 	var othis = this;
 	
-	var BimServerWebSocket = require("./bimserverapiwebsocket.js");
-	var Model = require("./model.js");
-	var BimServerApiPromise = require("./bimserverapipromise.js");
-	var ifc2x3tc1 = require("./ifc2x3tc1.js");
-	var ifc4 = require("./ifc4.js");
-	var translations = require("./translations_en.js");
+	if (typeof window.BimServerApiWebSocket == "undefined") {
+		var BimServerApiWebSocket = require("./bimserverapiwebsocket.js");
+	} else {
+		BimServerApiWebSocket = window.BimServerApiWebSocket;
+	}
+	if (typeof window.Model == "undefined") {
+		var Model = require("./model.js");
+	} else {
+		Model = window.Model;
+	}
+	if (typeof window.BimServerApiPromise == "undefined") {
+		var BimServerApiPromise = require("./bimserverapipromise.js");
+	} else {
+		BimServerApiPromise = window.BimServerApiPromise;
+	}
+	if (typeof window.ifc2x3tc1 == "undefined") {
+		var ifc2x3tc1 = require("./ifc2x3tc1.js");
+	} else {
+		ifc2x3tc1 = window.ifc2x3tc1;
+	}
+	if (typeof window.ifc4 == "undefined") {
+		var ifc4 = require("./ifc4.js");
+	} else {
+		ifc4 = window.ifc4;
+	}
+	if (typeof window.translations == "undefined") {
+		var translations = require("./translations_en.js");
+	}
 	
 	othis.interfaceMapping = {
 		"ServiceInterface": "org.bimserver.ServiceInterface",
@@ -51,7 +80,7 @@ module.exports = function(baseUrl, notifier) {
 	}
 	
 	// The websocket client
-	othis.webSocket = new BimServerWebSocket(baseUrl, othis);
+	othis.webSocket = new window.BimServerApiWebSocket(baseUrl, othis);
 	
 	// Cached user object
 	othis.user = null;
@@ -80,11 +109,11 @@ module.exports = function(baseUrl, notifier) {
 			othis.version = serverInfo.version;
 			var versionString = othis.version.major + "." + othis.version.minor + "." + othis.version.revision;
 
-			othis.schemas["ifc2x3tc1"] = ifc2x3tc1.classes;
-			othis.addSubtypesToSchema(ifc2x3tc1.classes);
+			othis.schemas["ifc2x3tc1"] = ifc2x3tc1().classes;
+			othis.addSubtypesToSchema(othis.schemas["ifc2x3tc1"].classes);
 
-			othis.schemas["ifc4"] = ifc4.classes;
-			othis.addSubtypesToSchema(ifc4.classes);
+			othis.schemas["ifc4"] = ifc4().classes;
+			othis.addSubtypesToSchema(othis.schemas["ifc4"].classes);
 
 			callback(othis, serverInfo);
 		});
@@ -447,7 +476,6 @@ module.exports = function(baseUrl, notifier) {
 		    if (xhr.status === 200) {
 		    	try {
 		    		var data = JSON.parse(xhr.responseText);
-		    		success(data);
 		    	} catch (e) {
 		    		if (e instanceof SyntaxError) {
 		    			if (error != null) {
@@ -460,6 +488,7 @@ module.exports = function(baseUrl, notifier) {
 		    			console.error(e);
 		    		}
 		    	}
+	    		success(data);
 		    } else {
 		    	if (error != null) {
 		    		error(jqXHR, textStatus, errorThrown);
@@ -696,9 +725,11 @@ module.exports = function(baseUrl, notifier) {
 		}, false);
 		xhr.open("POST", othis.baseUrl + "/upload");
 
-		var FormData = require("form-data");
+		if (typeof FormData !== "function") {
+			//var FormData = require("form-data");
+		}
 		
-		var formData = new FormData();
+		var formData = new window.FormData();
 		
 		formData.append("token", othis.token);
 		formData.append("deserializerOid", deserializerOid);
@@ -793,3 +824,7 @@ module.exports = function(baseUrl, notifier) {
 
 	othis.webSocket.listener = othis.processNotification;
 };
+
+if (typeof module != "undefined") {
+	module.exports = BimServerClient;
+}

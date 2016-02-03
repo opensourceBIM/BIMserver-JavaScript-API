@@ -1,7 +1,10 @@
 "use strict"
 
-module.exports = function(baseUrl, bimServerApi) {
-	var WebSocket = require("websocket").w3cwebsocket
+window.BimServerApiWebSocket = function(baseUrl, bimServerApi) {
+	console.log(window.WebSocket);
+	if (typeof window.WebSocket == "undefined") {
+		var WebSocket = require("websocket").w3cwebsocket
+	}
 	
 	var othis = this;
 	this.connected = false;
@@ -123,3 +126,7 @@ module.exports = function(baseUrl, bimServerApi) {
 		othis.endpointid = null;
 	};
 };
+
+if (typeof module != "undefined") {
+	module.exports = BimServerApiWebSocket;
+}

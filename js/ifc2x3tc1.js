@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = function() {
+window.ifc2x3tc1 = function() {
 	return {
 	  "classes": {
 	    "Tristate": {},
@@ -16723,3 +16723,7 @@ module.exports = function() {
 	  }
 	}
 };
+
+if (typeof module != "undefined") {
+	module.exports = ifc2x3tc1;
+}

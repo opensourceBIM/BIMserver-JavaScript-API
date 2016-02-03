@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = function() {
+window.translations = function() {
 	return {
 		GETDATAOBJECTSBYTYPE_BUSY: "Loading objects",
 		REQUESTPASSWORDCHANGE_BUSY: "Busy sending password reset e-mail",
@@ -59,3 +59,7 @@ module.exports = function() {
 		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved"
 	}
 };
+
+if (typeof module != "undefined") {
+	module.exports = Translations;
+}

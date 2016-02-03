@@ -1,6 +1,6 @@
 "use strict"
 
-module.exports = function(counter) {
+window.BimServerApiPromise = function(counter) {
 	var o = this;
 	
 	o.isDone = false;
@@ -87,3 +87,7 @@ module.exports = function(counter) {
 		}
 	};
 };
+
+if (typeof module != "undefined") {
+	module.exports = BimServerApiPromise;
+}
