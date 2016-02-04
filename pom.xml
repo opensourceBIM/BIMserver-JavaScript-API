@@ -11,6 +11,10 @@
 	<build>
 		<resources>
 			<resource>
+				<directory>js</directory>
+				<targetPath>js</targetPath>
+			</resource>
+			<resource>
 				<directory>../../output</directory>
 			</resource>
 			<resource>
