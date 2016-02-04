@@ -53,10 +53,14 @@ window.translations = function() {
 		ADDUSER_BUSY: "Adding user...",
 		GETAVAILABLEPLUGINBUNDLES_BUSY: "Loading available plugins, this can take a while...",
 		GETAVAILABLEPLUGINBUNDLES_DONE: "Done loading available plugins",
+		GETINSTALLEDPLUGINBUNDLES_BUSY: "Loading installed plugins, this can take a while...",
+		GETINSTALLEDPLUGINBUNDLES_DONE: "Done loading installed plugins",
 		INSTALLPLUGINBUNDLE_BUSY: "Installing plugin...",
 		INSTALLPLUGINBUNDLE_DONE: "Plugin successfully installed",
 		GETPLUGININFORMATION_BUSY: "Getting plugin information, this can take a while for large plugins...",
-		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved"
+		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved",
+		DOWNLOADBYNEWJSONQUERY_BUSY: "Downloading model data...",
+		DOWNLOADBYNEWJSONQUERY_DONE: "Model data downloaded"
 	}
 };
 

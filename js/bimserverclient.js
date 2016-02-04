@@ -39,6 +39,8 @@ var BimServerClient = function(baseUrl, notifier) {
 	}
 	if (typeof window.translations == "undefined") {
 		var translations = require("./translations_en.js");
+	} else {
+		translations = window.translations();
 	}
 	
 	othis.interfaceMapping = {
@@ -70,7 +72,9 @@ var BimServerClient = function(baseUrl, notifier) {
 	othis.notifier = notifier;
 	if (othis.notifier == null) {
 		othis.notifier = {
-			setInfo: function(message, timeout){},
+			setInfo: function(message, timeout){
+				console.log("[default]", message);
+			},
 			setSuccess: function(message, timeout){},
 			setError: function(){},
 			resetStatus: function(){},
@@ -154,9 +158,14 @@ var BimServerClient = function(baseUrl, notifier) {
 	this.translate = function(key) {
 		key = key.toUpperCase();
 		if (translations != null) {
-			return translations[key];
+			var translated = translations[key];
+			if (translated == null) {
+				console.warn("translation for " + key + " not found, using key");
+				return key;
+			}
+			return translated;
 		}
-		othis.log("translation for " + key + " not found");
+		othis.error("no translations");
 		return key;
 	};
 

@@ -1,7 +1,6 @@
 "use strict"
 
 window.BimServerApiWebSocket = function(baseUrl, bimServerApi) {
-	console.log(window.WebSocket);
 	if (typeof window.WebSocket == "undefined") {
 		var WebSocket = require("websocket").w3cwebsocket
 	}
