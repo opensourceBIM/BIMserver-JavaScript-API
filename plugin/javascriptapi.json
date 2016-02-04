@@ -1,7 +1,0 @@
-{
-	"identifier": "bimserverjavascriptapi",
-	"version": "%VERSION%",
-	"description": "JavaScript API for BIMserver",
-	"defaultName": "BIMServer JavaScript API",
-	"defaultContextPath": "javascriptapi"
-}
