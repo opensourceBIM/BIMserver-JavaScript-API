@@ -2,6 +2,7 @@
 <PluginDescriptor>
 	<WebModulePlugin>
 		<identifier>bimserverjavascriptapi</identifier>
+		<name>BIMserver JavaScript API</name>
 		<description>JavaScript API for BIMserver</description>
 	</WebModulePlugin>
 </PluginDescriptor>
