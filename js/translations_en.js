@@ -60,7 +60,8 @@ window.translations = function() {
 		GETPLUGININFORMATION_BUSY: "Getting plugin information, this can take a while for large plugins...",
 		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved",
 		DOWNLOADBYNEWJSONQUERY_BUSY: "Downloading model data...",
-		DOWNLOADBYNEWJSONQUERY_DONE: "Model data downloaded"
+		DOWNLOADBYNEWJSONQUERY_DONE: "Model data downloaded",
+		LOGIN_DONE: "Login successful"
 	}
 };
 
