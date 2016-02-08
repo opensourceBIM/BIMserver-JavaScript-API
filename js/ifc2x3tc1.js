@@ -1,5 +1,3 @@
-"use strict"
-
 var ifc2x3tc1 = function() {
 	return {
 	  "classes": {

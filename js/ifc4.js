@@ -1,5 +1,3 @@
-"use strict"
-
 var ifc4 = function() {
 	return {
   "classes": {

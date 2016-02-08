@@ -1,5 +1,3 @@
-"use strict"
-
 var translations = function() {
 	return {
 		GETDATAOBJECTSBYTYPE_BUSY: "Loading objects",

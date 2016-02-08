@@ -1,5 +1,3 @@
-"use strict"
-
 var BimServerApiPromise = function(counter) {
 	var o = this;
 	

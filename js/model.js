@@ -1,5 +1,3 @@
-"use strict"
-
 //var BimServerApiPromise = null;
 
 var Model = function(bimServerApi, poid, roid, schema) {

@@ -1,5 +1,3 @@
-"use strict"
-
 if (typeof XMLHttpRequest != "function") {
 	var XMLHttpRequest = require("xhr2");
 }
