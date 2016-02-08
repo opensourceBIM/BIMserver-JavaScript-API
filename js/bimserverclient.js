@@ -834,6 +834,8 @@ var BimServerClient = function(baseUrl, notifier) {
 	othis.webSocket.listener = othis.processNotification;
 };
 
-if (typeof module != "undefined") {
+if (typeof window != "undefined") {
+	window.BimServerClient = BimServerClient;
+} else if (typeof module != "undefined") {
 	module.exports = BimServerClient;
 }

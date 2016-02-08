@@ -1,6 +1,6 @@
 "use strict"
 
-window.BimServerApiWebSocket = function(baseUrl, bimServerApi) {
+var BimServerApiWebSocket = function(baseUrl, bimServerApi) {
 	if (typeof window.WebSocket == "undefined") {
 		var WebSocket = require("websocket").w3cwebsocket
 	}
@@ -126,6 +126,8 @@ window.BimServerApiWebSocket = function(baseUrl, bimServerApi) {
 	};
 };
 
-if (typeof module != "undefined") {
+if (typeof window != "undefined") {
+	window.BimServerApiWebSocket = BimServerApiWebSocket;
+} else if (typeof module != "undefined") {
 	module.exports = BimServerApiWebSocket;
 }

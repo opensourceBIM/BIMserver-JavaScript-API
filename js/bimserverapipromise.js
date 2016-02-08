@@ -1,6 +1,6 @@
 "use strict"
 
-window.BimServerApiPromise = function(counter) {
+var BimServerApiPromise = function(counter) {
 	var o = this;
 	
 	o.isDone = false;
@@ -88,6 +88,8 @@ window.BimServerApiPromise = function(counter) {
 	};
 };
 
-if (typeof module != "undefined") {
+if (typeof window != "undefined") {
+	window.BimServerApiPromise = BimServerApiPromise;
+} else if (typeof module != "undefined") {
 	module.exports = BimServerApiPromise;
 }

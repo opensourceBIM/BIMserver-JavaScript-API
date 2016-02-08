@@ -2,7 +2,7 @@
 
 //var BimServerApiPromise = null;
 
-window.Model = function(bimServerApi, poid, roid, schema) {
+var Model = function(bimServerApi, poid, roid, schema) {
 	var othis = this;
 
 	if (typeof window.BimServerApiPromise == "undefined") {
@@ -852,6 +852,8 @@ window.Model = function(bimServerApi, poid, roid, schema) {
 	};
 };
 
-if (typeof module != "undefined") {
+if (typeof window != "undefined") {
+	window.Model = Model;
+} else if (typeof module != "undefined") {
 	module.exports = Model;
 }

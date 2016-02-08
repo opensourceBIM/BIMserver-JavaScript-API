@@ -1,6 +1,6 @@
 "use strict"
 
-window.translations = function() {
+var translations = function() {
 	return {
 		GETDATAOBJECTSBYTYPE_BUSY: "Loading objects",
 		REQUESTPASSWORDCHANGE_BUSY: "Busy sending password reset e-mail",
@@ -65,6 +65,8 @@ window.translations = function() {
 	}
 };
 
-if (typeof module != "undefined") {
-	module.exports = Translations;
+if (typeof window != "undefined") {
+	window.translations = translations;
+} else if (typeof module != "undefined") {
+	module.exports = translations;
 }

@@ -1,6 +1,6 @@
 "use strict"
 
-window.ifc2x3tc1 = function() {
+var ifc2x3tc1 = function() {
 	return {
 	  "classes": {
 	    "Tristate": {},
@@ -16724,6 +16724,8 @@ window.ifc2x3tc1 = function() {
 	}
 };
 
-if (typeof module != "undefined") {
+if (typeof window != "undefined") {
+	window.ifc2x3tc1 = ifc2x3tc1;
+} else if (typeof module != "undefined") {
 	module.exports = ifc2x3tc1;
 }
