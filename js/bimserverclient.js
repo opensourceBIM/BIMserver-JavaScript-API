@@ -2,7 +2,7 @@ if (typeof XMLHttpRequest != "function") {
 	var XMLHttpRequest = require("xhr2");
 }
 
-var BimServerApiPromise = null;
+//var BimServerApiPromise = null;
 var ifc2x3tc1 = null;
 var ifc4 = null;
 var Model = null;
@@ -20,11 +20,13 @@ var BimServerClient = function(baseUrl, notifier) {
 	} else {
 		Model = window.Model;
 	}
-	if (typeof window.BimServerApiPromise == "undefined") {
-		var BimServerApiPromise = require("./bimserverapipromise.js");
-	} else {
-		BimServerApiPromise = window.BimServerApiPromise;
-	}
+//	if (typeof window.BimServerApiPromise == "undefined") {
+//		var BimServerApiPromise = require("./bimserverapipromise.js");
+//	} else if (typeof window.BimServerApiPromise != "undefined"){
+//		BimServerApiPromise = window.BimServerApiPromise;
+//	} else {
+//		console.error("Missing BimServerApiPromise");
+//	}
 	if (typeof window.ifc2x3tc1 == "undefined") {
 		var ifc2x3tc1 = require("./ifc2x3tc1.js");
 	} else {
