@@ -113,11 +113,15 @@ var BimServerClient = function(baseUrl, notifier) {
 			othis.version = serverInfo.version;
 			var versionString = othis.version.major + "." + othis.version.minor + "." + othis.version.revision;
 
-			othis.schemas["ifc2x3tc1"] = ifc2x3tc1().classes;
-			othis.addSubtypesToSchema(othis.schemas["ifc2x3tc1"]);
-
-			othis.schemas["ifc4"] = ifc4().classes;
-			othis.addSubtypesToSchema(othis.schemas["ifc4"]);
+			if (ifc2x3tc1 != null) {
+				othis.schemas["ifc2x3tc1"] = ifc2x3tc1().classes;
+				othis.addSubtypesToSchema(othis.schemas["ifc2x3tc1"]);
+			}
+			
+			if (ifc4 != null) {
+				othis.schemas["ifc4"] = ifc4().classes;
+				othis.addSubtypesToSchema(othis.schemas["ifc4"]);
+			}
 
 			callback(othis, serverInfo);
 		});
