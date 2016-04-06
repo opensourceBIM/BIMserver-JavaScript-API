@@ -513,7 +513,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		});
 	};
 
-	this.getByX = function(methodName, keyname, fetchingMap, targetMap, interfaceMethodName, interfaceFieldName, getValueMethod, list, callback) {
+	this.getByX = function(methodName, keyname, fetchingMap, targetMap, query, getValueMethod, list, callback) {
 		var promise = new BimServerApiPromise();
 		if (typeof list == "string" || typeof list == "number") {
 			list = [list];
@@ -543,15 +543,15 @@ var Model = function(bimServerApi, poid, roid, schema) {
 				list.forEach(function(item){
 					fetchingMap[item] = [];
 				});
-				othis.bimServerApi.getJsonSerializer(function(serializer){
+				othis.bimServerApi.getJsonStreamingSerializer(function(serializer){
 					var request = {
 						roids: [othis.roid],
+						query: JSON.stringify(query),
 						serializerOid: serializer.oid,
 						deep: false,
 						sync: true
 					};
-					request[interfaceFieldName] = list;
-					bimServerApi.call("Bimsie1ServiceInterface", interfaceMethodName, request, function(topicId){
+					bimServerApi.call("Bimsie1ServiceInterface", "downloadByNewJsonQuery", request, function(topicId){
 						var url = bimServerApi.generateRevisionDownloadUrl({
 							topicId: topicId,
 							serializerOid: serializer.oid
@@ -606,15 +606,24 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	};
 
 	this.getByGuids = function(guids, callback) {
-		return othis.getByX("getByGuid", "guid", othis.guidsFetching, othis.objectsByGuid, "downloadByGuids", "guids", function(object){return object.GlobalId}, guids, callback);
+		var query = {
+			guids: guids
+		};
+		return othis.getByX("getByGuid", "guid", othis.guidsFetching, othis.objectsByGuid, query, function(object){return object.GlobalId}, guids, callback);
 	};
 
 	this.get = function(oids, callback) {
-		return othis.getByX("get", "OID", othis.oidsFetching, othis.objects, "downloadByOids", "oids", function(object){return object._i}, oids, callback);
+		var query = {
+			oids: oids
+		}
+		return othis.getByX("get", "OID", othis.oidsFetching, othis.objects, query, function(object){return object._i}, oids, callback);
 	};
 
 	this.getByName = function(names, callback) {
-		return othis.getByX("getByName", "name", othis.namesFetching, othis.objectsByName, "downloadByNames", "names", function(object){return object.getName == null ? null : object.getName()}, names, callback);
+		var query = {
+			names: names
+		}
+		return othis.getByX("getByName", "name", othis.namesFetching, othis.objectsByName, query, function(object){return object.getName == null ? null : object.getName()}, names, callback);
 	};
 
 	this.query = function(query, callback){
