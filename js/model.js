@@ -548,8 +548,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						roids: [othis.roid],
 						query: JSON.stringify(query),
 						serializerOid: serializer.oid,
-						deep: false,
-						sync: true
+						sync: false
 					};
 					bimServerApi.call("Bimsie1ServiceInterface", "downloadByNewJsonQuery", request, function(topicId){
 						var url = bimServerApi.generateRevisionDownloadUrl({
@@ -613,6 +612,9 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	};
 
 	this.get = function(oids, callback) {
+		if (typeof oids == "number") {
+			oids = [oids];
+		}
 		var query = {
 			oids: oids
 		}
