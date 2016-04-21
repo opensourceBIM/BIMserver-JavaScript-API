@@ -50,10 +50,8 @@ var BimServerClient = function(baseUrl, notifier) {
 		"AdminInterface": "org.bimserver.AdminInterface",
 		"PluginInterface": "org.bimserver.PluginInterface",
 		"MetaInterface": "org.bimserver.MetaInterface",
-		"Bimsie1LowLevelInterface": "org.buildingsmart.bimsie1.Bimsie1LowLevelInterface",
-		"Bimsie1NotificationRegistryInterface": "org.buildingsmart.bimsie1.Bimsie1NotificationRegistryInterface",
-		"Bimsie1AuthInterface": "org.buildingsmart.bimsie1.Bimsie1AuthInterface",
-		"Bimsie1ServiceInterface": "org.buildingsmart.bimsie1.Bimsie1ServiceInterface"
+		"LowLevelInterface": "org.bimserver.LowLevelInterface",
+		"NotificationRegistryInterface": "org.bimserver.NotificationRegistryInterface",
 	};
 
 	// Current BIMserver token
@@ -181,7 +179,7 @@ var BimServerClient = function(baseUrl, notifier) {
 			username: username,
 			password: password
 		};
-		othis.call("Bimsie1AuthInterface", "login", request, function(data){
+		othis.call("AuthInterface", "login", request, function(data){
 			othis.token = data;
 			if (options.done != false) {
 				othis.notifier.setInfo("Login successful", 2000);
@@ -242,7 +240,7 @@ var BimServerClient = function(baseUrl, notifier) {
 	};
 
 	this.logout = function(callback) {
-		othis.call("Bimsie1AuthInterface", "logout", {}, function(){
+		othis.call("AuthInterface", "logout", {}, function(){
 			othis.notifier.setInfo("Logout successful");
 			callback();
 		});
@@ -303,8 +301,8 @@ var BimServerClient = function(baseUrl, notifier) {
 	};
 
 	this.registerNewRevisionOnSpecificProjectHandler = function(poid, handler, callback){
-		othis.register("Bimsie1NotificationInterface", "newRevision", handler, function(){
-			othis.call("Bimsie1NotificationRegistryInterface", "registerNewRevisionOnSpecificProjectHandler", {endPointId: othis.webSocket.endPointId, poid: poid}, function(){
+		othis.register("NotificationInterface", "newRevision", handler, function(){
+			othis.call("NotificationRegistryInterface", "registerNewRevisionOnSpecificProjectHandler", {endPointId: othis.webSocket.endPointId, poid: poid}, function(){
 				if (callback != null) {
 					callback();
 				}
@@ -313,8 +311,8 @@ var BimServerClient = function(baseUrl, notifier) {
 	};
 
 	this.registerNewExtendedDataOnRevisionHandler = function(roid, handler, callback){
-		othis.register("Bimsie1NotificationInterface", "newExtendedData", handler, function(){
-			othis.call("Bimsie1NotificationRegistryInterface", "registerNewExtendedDataOnRevisionHandler", {endPointId: othis.webSocket.endPointId, roid: roid}, function(){
+		othis.register("NotificationInterface", "newExtendedData", handler, function(){
+			othis.call("NotificationRegistryInterface", "registerNewExtendedDataOnRevisionHandler", {endPointId: othis.webSocket.endPointId, roid: roid}, function(){
 				if (callback != null) {
 					callback();
 				}
@@ -323,8 +321,8 @@ var BimServerClient = function(baseUrl, notifier) {
 	};
 	
 	this.registerNewUserHandler = function(handler, callback) {
-		othis.register("Bimsie1NotificationInterface", "newUser", handler, function(){
-			othis.call("Bimsie1NotificationRegistryInterface", "registerNewUserHandler", {endPointId: othis.webSocket.endPointId}, function(){
+		othis.register("NotificationInterface", "newUser", handler, function(){
+			othis.call("NotificationRegistryInterface", "registerNewUserHandler", {endPointId: othis.webSocket.endPointId}, function(){
 				if (callback != null) {
 					callback();
 				}
@@ -334,7 +332,7 @@ var BimServerClient = function(baseUrl, notifier) {
 
 	this.unregisterNewUserHandler = function(handler, callback) {
 		othis.unregister(handler);
-		othis.call("Bimsie1NotificationRegistryInterface", "unregisterNewUserHandler", {endPointId: othis.webSocket.endPointId}, function(){
+		othis.call("NotificationRegistryInterface", "unregisterNewUserHandler", {endPointId: othis.webSocket.endPointId}, function(){
 			if (callback != null) {
 				callback();
 			}
@@ -344,13 +342,13 @@ var BimServerClient = function(baseUrl, notifier) {
 	this.unregisterChangeProgressProjectHandler = function(poid, newHandler, closedHandler, callback) {
 		othis.unregister(newHandler);
 		othis.unregister(closedHandler);
-		othis.call("Bimsie1NotificationRegistryInterface", "unregisterChangeProgressOnProject", {poid: poid, endPointId: othis.webSocket.endPointId}, callback);
+		othis.call("NotificationRegistryInterface", "unregisterChangeProgressOnProject", {poid: poid, endPointId: othis.webSocket.endPointId}, callback);
 	};
 
 	this.registerChangeProgressProjectHandler = function(poid, newHandler, closedHandler, callback) {
-		othis.register("Bimsie1NotificationInterface", "newProgressOnProjectTopic", newHandler, function(){
-			othis.register("Bimsie1NotificationInterface", "closedProgressOnProjectTopic", closedHandler, function(){
-				othis.call("Bimsie1NotificationRegistryInterface", "registerChangeProgressOnProject", {poid: poid, endPointId: othis.webSocket.endPointId}, function(){
+		othis.register("NotificationInterface", "newProgressOnProjectTopic", newHandler, function(){
+			othis.register("NotificationInterface", "closedProgressOnProjectTopic", closedHandler, function(){
+				othis.call("NotificationRegistryInterface", "registerChangeProgressOnProject", {poid: poid, endPointId: othis.webSocket.endPointId}, function(){
 					if (callback != null) {
 						callback();
 					}
@@ -363,14 +361,14 @@ var BimServerClient = function(baseUrl, notifier) {
 		othis.unregister(newHandler);
 		othis.unregister(closedHandler);
 		if (othis.webSocket.endPointId != null) {
-			othis.call("Bimsie1NotificationRegistryInterface", "unregisterChangeProgressOnServer", {endPointId: othis.webSocket.endPointId}, callback);
+			othis.call("NotificationRegistryInterface", "unregisterChangeProgressOnServer", {endPointId: othis.webSocket.endPointId}, callback);
 		}
 	};
 
 	this.registerChangeProgressServerHandler = function(newHandler, closedHandler, callback) {
-		othis.register("Bimsie1NotificationInterface", "newProgressOnServerTopic", newHandler, function(){
-			othis.register("Bimsie1NotificationInterface", "closedProgressOnServerTopic", closedHandler, function(){
-				othis.call("Bimsie1NotificationRegistryInterface", "registerChangeProgressOnServer", {endPointId: othis.webSocket.endPointId}, function(){
+		othis.register("NotificationInterface", "newProgressOnServerTopic", newHandler, function(){
+			othis.register("NotificationInterface", "closedProgressOnServerTopic", closedHandler, function(){
+				othis.call("NotificationRegistryInterface", "registerChangeProgressOnServer", {endPointId: othis.webSocket.endPointId}, function(){
 					if (callback != null) {
 						callback();
 					}
@@ -382,13 +380,13 @@ var BimServerClient = function(baseUrl, notifier) {
 	this.unregisterChangeProgressRevisionHandler = function(roid, newHandler, closedHandler, callback) {
 		othis.unregister(newHandler);
 		othis.unregister(closedHandler);
-		othis.call("Bimsie1NotificationRegistryInterface", "unregisterChangeProgressOnProject", {roid: roid, endPointId: othis.webSocket.endPointId}, callback);
+		othis.call("NotificationRegistryInterface", "unregisterChangeProgressOnProject", {roid: roid, endPointId: othis.webSocket.endPointId}, callback);
 	};
 
 	this.registerChangeProgressRevisionHandler = function(poid, roid, newHandler, closedHandler, callback) {
-		othis.register("Bimsie1NotificationInterface", "newProgressOnRevisionTopic", newHandler, function(){
-			othis.register("Bimsie1NotificationInterface", "closedProgressOnRevisionTopic", closedHandler, function(){
-				othis.call("Bimsie1NotificationRegistryInterface", "registerChangeProgressOnRevision", {poid: poid, roid: roid, endPointId: othis.webSocket.endPointId}, function(){
+		othis.register("NotificationInterface", "newProgressOnRevisionTopic", newHandler, function(){
+			othis.register("NotificationInterface", "closedProgressOnRevisionTopic", closedHandler, function(){
+				othis.call("NotificationRegistryInterface", "registerChangeProgressOnRevision", {poid: poid, roid: roid, endPointId: othis.webSocket.endPointId}, function(){
 					if (callback != null) {
 						callback();
 					}
@@ -398,8 +396,8 @@ var BimServerClient = function(baseUrl, notifier) {
 	}
 
 	this.registerNewProjectHandler = function(handler, callback) {
-		othis.register("Bimsie1NotificationInterface", "newProject", handler, function(){
-			othis.call("Bimsie1NotificationRegistryInterface", "registerNewProjectHandler", {endPointId: othis.webSocket.endPointId}, function(){
+		othis.register("NotificationInterface", "newProject", handler, function(){
+			othis.call("NotificationRegistryInterface", "registerNewProjectHandler", {endPointId: othis.webSocket.endPointId}, function(){
 				if (callback != null) {
 					callback();
 				}
@@ -410,7 +408,7 @@ var BimServerClient = function(baseUrl, notifier) {
 	this.unregisterNewProjectHandler = function(handler, callback){
 		othis.unregister(handler);
 		if (othis.webSocket.endPointId != null) {
-			othis.call("Bimsie1NotificationRegistryInterface", "unregisterNewProjectHandler", {endPointId: othis.webSocket.endPointId}, function(){
+			othis.call("NotificationRegistryInterface", "unregisterNewProjectHandler", {endPointId: othis.webSocket.endPointId}, function(){
 				if (callback != null) {
 					callback();
 				}
@@ -420,7 +418,7 @@ var BimServerClient = function(baseUrl, notifier) {
 
 	this.unregisterNewRevisionOnSpecificProjectHandler = function(poid, handler, callback){
 		othis.unregister(handler);
-		othis.call("Bimsie1NotificationRegistryInterface", "unregisterNewRevisionOnSpecificProjectHandler", {endPointId: othis.webSocket.endPointId, poid: poid}, function(){
+		othis.call("NotificationRegistryInterface", "unregisterNewRevisionOnSpecificProjectHandler", {endPointId: othis.webSocket.endPointId, poid: poid}, function(){
 			if (callback != null) {
 				callback();
 			}
@@ -429,7 +427,7 @@ var BimServerClient = function(baseUrl, notifier) {
 
 	this.unregisterNewExtendedDataOnRevisionHandler = function(roid, handler, callback){
 		othis.unregister(handler);
-		othis.call("Bimsie1NotificationRegistryInterface", "unregisterNewExtendedDataOnRevisionHandler", {endPointId: othis.webSocket.endPointId, roid: roid}, function(){
+		othis.call("NotificationRegistryInterface", "unregisterNewExtendedDataOnRevisionHandler", {endPointId: othis.webSocket.endPointId, roid: roid}, function(){
 			if (callback != null) {
 				callback();
 			}
@@ -437,12 +435,12 @@ var BimServerClient = function(baseUrl, notifier) {
 	};
 
 	this.registerProgressHandler = function(topicId, handler, callback){
-		othis.register("Bimsie1NotificationInterface", "progress", handler, function(){
-			othis.call("Bimsie1NotificationRegistryInterface", "registerProgressHandler", {topicId: topicId, endPointId: othis.webSocket.endPointId}, function(){
+		othis.register("NotificationInterface", "progress", handler, function(){
+			othis.call("NotificationRegistryInterface", "registerProgressHandler", {topicId: topicId, endPointId: othis.webSocket.endPointId}, function(){
 				if (callback != null) {
 					callback();
 				} else {
-					othis.call("Bimsie1NotificationRegistryInterface", "getProgress", {
+					othis.call("NotificationRegistryInterface", "getProgress", {
 						topicId: topicId
 					}, function(state){
 						handler(topicId, state);
@@ -454,7 +452,7 @@ var BimServerClient = function(baseUrl, notifier) {
 
 	this.unregisterProgressHandler = function(topicId, handler, callback){
 		othis.unregister(handler);
-		othis.call("Bimsie1NotificationRegistryInterface", "unregisterProgressHandler", {topicId: topicId, endPointId: othis.webSocket.endPointId}, function(){
+		othis.call("NotificationRegistryInterface", "unregisterProgressHandler", {topicId: topicId, endPointId: othis.webSocket.endPointId}, function(){
 		}).done(callback);
 	};
 
@@ -762,7 +760,7 @@ var BimServerClient = function(baseUrl, notifier) {
 			var result = JSON.parse(this.response);
 			
 			if (result.exception == null) {
-				othis.call("Bimsie1ServiceInterface", "addExtendedDataToRevision", {
+				othis.call("ServiceInterface", "addExtendedDataToRevision", {
 					roid: roid,
 					extendedData: {
 						__type: "SExtendedData",
@@ -803,7 +801,7 @@ var BimServerClient = function(baseUrl, notifier) {
 
 	/**
 	 * Call a single method, this method delegates to the multiCall method
-	 * @param {string} interfaceName - Interface name, e.g. "Bimsie1ServiceInterface"
+	 * @param {string} interfaceName - Interface name, e.g. "ServiceInterface"
 	 * @param {string} methodName - Methodname, e.g. "addProject"
 	 * @param {Object} data - Object with a field per arument
 	 * @param {Function} callback - Function to callback, first argument in callback will be the returned object

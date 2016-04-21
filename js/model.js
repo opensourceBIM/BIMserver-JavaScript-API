@@ -41,7 +41,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		if (deep) {
 			othis.loading = true;
 			othis.bimServerApi.getJsonSerializer(function(serializer){
-				bimServerApi.call("Bimsie1ServiceInterface", "download", {
+				bimServerApi.call("ServiceInterface", "download", {
 					roid: othis.roid,
 					serializerOid: serializer.oid,
 					showOwn: true,
@@ -81,7 +81,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	
 	// Start a transaction, make sure to wait for the callback to be called, only after that the transaction will be active
 	this.startTransaction = function(callback){
-		bimServerApi.call("Bimsie1LowLevelInterface", "startTransaction", {poid: othis.poid}, function(tid){
+		bimServerApi.call("LowLevelInterface", "startTransaction", {poid: othis.poid}, function(tid){
 			othis.tid = tid;
 			callback(tid);
 		});
@@ -99,7 +99,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		var tid = othis.checkTransaction();
 		object._t = className;
 		var wrapper = othis.createWrapper({}, className);
-		bimServerApi.call("Bimsie1LowLevelInterface", "createObject", {tid: tid, className: className}, function(oid){
+		bimServerApi.call("LowLevelInterface", "createObject", {tid: tid, className: className}, function(oid){
 			wrapper._i = oid;
 			othis.objects[object._i] = wrapper;
 			object._s = 1;
@@ -124,7 +124,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 
 	this.commit = function(comment, callback){
 		var tid = othis.checkTransaction();
-		bimServerApi.call("Bimsie1LowLevelInterface", "commitTransaction", {tid: tid, comment: comment}, function(roid){
+		bimServerApi.call("LowLevelInterface", "commitTransaction", {tid: tid, comment: comment}, function(roid){
 			if (callback != null) {
 				callback(roid);
 			}
@@ -133,7 +133,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	
 	this.abort = function(callback){
 		var tid = othis.checkTransaction();
-		bimServerApi.call("Bimsie1LowLevelInterface", "abortTransaction", {tid: tid}, function(roid){
+		bimServerApi.call("LowLevelInterface", "abortTransaction", {tid: tid}, function(roid){
 			if (callback != null) {
 				callback();
 			}
@@ -167,7 +167,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						var type = othis.bimServerApi.schemas[othis.schema][typeName];
 						var wrappedValueType = type.fields.wrappedValue;
 						if (wrappedValueType.type == "string") {
-							bimServerApi.call("Bimsie1LowLevelInterface", "setWrappedStringAttribute", {
+							bimServerApi.call("LowLevelInterface", "setWrappedStringAttribute", {
 								tid: tid,
 								oid: object._i,
 								attributeName: fieldName,
@@ -188,7 +188,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						var object = this.object;
 						object[fieldName] = value;
 						if (value == null) {
-							bimServerApi.call("Bimsie1LowLevelInterface", "unsetReference", {
+							bimServerApi.call("LowLevelInterface", "unsetReference", {
 								tid: tid,
 								oid: object._i,
 								referenceName: fieldName,
@@ -200,7 +200,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 								othis.changedObjectOids[object.oid] = true;
 							});
 						} else {
-							bimServerApi.call("Bimsie1LowLevelInterface", "setReference", {
+							bimServerApi.call("LowLevelInterface", "setReference", {
 								tid: tid,
 								oid: object._i,
 								referenceName: fieldName,
@@ -221,7 +221,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 							object[fieldName] = [];
 						}
 						object[fieldName].push(value);
-						bimServerApi.call("Bimsie1LowLevelInterface", "addReference", {
+						bimServerApi.call("LowLevelInterface", "addReference", {
 							tid: tid,
 							oid: object._i,
 							referenceName: fieldName,
@@ -244,7 +244,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						var index = list.indexOf(value);
 						list.splice(index, 1);
 						
-						bimServerApi.call("Bimsie1LowLevelInterface", "removeReference", {
+						bimServerApi.call("LowLevelInterface", "removeReference", {
 							tid: tid,
 							oid: object._i,
 							referenceName: fieldName,
@@ -341,7 +341,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						object[fieldName] = value;
 						var tid = othis.checkTransaction();
 						if (field.many) {
-							bimServerApi.call("Bimsie1LowLevelInterface", "setDoubleAttributes", {
+							bimServerApi.call("LowLevelInterface", "setDoubleAttributes", {
 								tid: tid,
 								oid: object._i,
 								attributeName: fieldName,
@@ -350,14 +350,14 @@ var Model = function(bimServerApi, poid, roid, schema) {
 							});
 						} else {
 							if (value == null) {
-								bimServerApi.call("Bimsie1LowLevelInterface", "unsetAttribute", {
+								bimServerApi.call("LowLevelInterface", "unsetAttribute", {
 									tid: tid,
 									oid: object._i,
 									attributeName: fieldName
 								}, function(){
 								});
 							} else if (field.type == "string") {
-								bimServerApi.call("Bimsie1LowLevelInterface", "setStringAttribute", {
+								bimServerApi.call("LowLevelInterface", "setStringAttribute", {
 									tid: tid,
 									oid: object._i,
 									attributeName: fieldName,
@@ -365,7 +365,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 								}, function(){
 								});
 							} else if (field.type == "double") {
-								bimServerApi.call("Bimsie1LowLevelInterface", "setDoubleAttribute", {
+								bimServerApi.call("LowLevelInterface", "setDoubleAttribute", {
 									tid: tid,
 									oid: object._i,
 									attributeName: fieldName,
@@ -373,7 +373,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 								}, function(){
 								});
 							} else if (field.type == "boolean") {
-								bimServerApi.call("Bimsie1LowLevelInterface", "setBooleanAttribute", {
+								bimServerApi.call("LowLevelInterface", "setBooleanAttribute", {
 									tid: tid,
 									oid: object._i,
 									attributeName: fieldName,
@@ -381,7 +381,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 								}, function(){
 								});
 							} else if (field.type == "int") {
-								bimServerApi.call("Bimsie1LowLevelInterface", "setIntegerAttribute", {
+								bimServerApi.call("LowLevelInterface", "setIntegerAttribute", {
 									tid: tid,
 									oid: object._i,
 									attributeName: fieldName,
@@ -389,7 +389,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 								}, function(){
 								});
 							} else if (field.type == "enum") {
-								bimServerApi.call("Bimsie1LowLevelInterface", "setEnumAttribute", {
+								bimServerApi.call("LowLevelInterface", "setEnumAttribute", {
 									tid: tid,
 									oid: object._i,
 									attributeName: fieldName,
@@ -465,7 +465,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 			};
 			wrapperClass.remove = function(removeCallback){
 				var tid = othis.checkTransaction();
-				bimServerApi.call("Bimsie1LowLevelInterface", "removeObject", {tid: tid, oid: this.object._i}, function(){
+				bimServerApi.call("LowLevelInterface", "removeObject", {tid: tid, oid: this.object._i}, function(){
 					if (removeCallback != null) {
 						removeCallback();
 					}
@@ -501,14 +501,14 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	};
 
 	this.size = function(callback){
-		bimServerApi.call("Bimsie1ServiceInterface", "getRevision", {roid: roid}, function(revision){
+		bimServerApi.call("ServiceInterface", "getRevision", {roid: roid}, function(revision){
 			callback(revision.size);
 		});
 	};
 
 	this.count = function(type, includeAllSubTypes, callback) {
 		// TODO use includeAllSubTypes
-		bimServerApi.call("Bimsie1LowLevelInterface", "count", {roid: roid, className: type}, function(size){
+		bimServerApi.call("LowLevelInterface", "count", {roid: roid, className: type}, function(size){
 			callback(size);
 		});
 	};
@@ -550,7 +550,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						serializerOid: serializer.oid,
 						sync: false
 					};
-					bimServerApi.call("Bimsie1ServiceInterface", "downloadByNewJsonQuery", request, function(topicId){
+					bimServerApi.call("ServiceInterface", "downloadByNewJsonQuery", request, function(topicId){
 						var url = bimServerApi.generateRevisionDownloadUrl({
 							topicId: topicId,
 							serializerOid: serializer.oid
@@ -646,7 +646,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		});
 		othis.waitForLoaded(function(){
 			othis.bimServerApi.getJsonSerializer(function(serializer){
-				bimServerApi.callWithFullIndication("Bimsie1ServiceInterface", "downloadByJsonQuery", {
+				bimServerApi.callWithFullIndication("ServiceInterface", "downloadByJsonQuery", {
 					roids: [othis.roid],
 					jsonQuery: JSON.stringify(query),
 					serializerOid: serializer.oid,
@@ -714,7 +714,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		}
 		othis.waitForLoaded(function(){
 			othis.bimServerApi.getJsonStreamingSerializer(function(serializer){
-				bimServerApi.callWithFullIndication("Bimsie1ServiceInterface", "downloadByNewJsonQuery", {
+				bimServerApi.callWithFullIndication("ServiceInterface", "downloadByNewJsonQuery", {
 					roids: [othis.roid],
 					query: JSON.stringify(query),
 					serializerOid: serializer.oid,
@@ -800,7 +800,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 
 				if (typesToLoad.length > 0) {
 					othis.bimServerApi.getJsonSerializer(function(serializer){
-						bimServerApi.call("Bimsie1ServiceInterface", "downloadByTypes", {
+						bimServerApi.call("ServiceInterface", "downloadByTypes", {
 							roids: [othis.roid],
 							classNames: typesToLoad,
 							schema: othis.schema,
