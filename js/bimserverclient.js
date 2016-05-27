@@ -46,6 +46,7 @@ var BimServerClient = function(baseUrl, notifier) {
 	othis.interfaceMapping = {
 		"ServiceInterface": "org.bimserver.ServiceInterface",
 		"AuthInterface": "org.bimserver.AuthInterface",
+		"OAuthInterface": "org.bimserver.OAuthInterface",
 		"SettingsInterface": "org.bimserver.SettingsInterface",
 		"AdminInterface": "org.bimserver.AdminInterface",
 		"PluginInterface": "org.bimserver.PluginInterface",
