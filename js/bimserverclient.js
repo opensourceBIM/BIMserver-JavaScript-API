@@ -525,6 +525,9 @@ var BimServerClient = function(baseUrl, notifier) {
 		} else if (requests.length > 1) {
 			var requestObjects = [];
 			requests.forEach(function(request){
+				if (othis.interfaceMapping[request[0]] == null) {
+					othis.log("Interface " + request[0] + " not found");
+				}
 				requestObjects.push(othis.createRequest(othis.interfaceMapping[request[0]], request[1], request[2]));
 			});
 			request = {
