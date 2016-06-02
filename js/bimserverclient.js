@@ -53,6 +53,7 @@ var BimServerClient = function(baseUrl, notifier) {
 		"MetaInterface": "org.bimserver.MetaInterface",
 		"LowLevelInterface": "org.bimserver.LowLevelInterface",
 		"NotificationRegistryInterface": "org.bimserver.NotificationRegistryInterface",
+		"OAuthInterface": "org.bimserver.OAuthInterface",
 	};
 
 	// Current BIMserver token
