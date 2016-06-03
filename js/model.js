@@ -546,6 +546,9 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						serializerOid: serializer.oid
 					});
 					othis.bimServerApi.getJson(url, null, function(data){
+						if (data == null) {
+							debugger;
+						}
 						if (data.objects.length > 0) {
 							var done = 0;
 							data.objects.forEach(function(object){
