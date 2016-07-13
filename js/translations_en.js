@@ -59,7 +59,8 @@ var translations = function() {
 		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved",
 		DOWNLOADBYNEWJSONQUERY_BUSY: "Downloading model data...",
 		DOWNLOADBYNEWJSONQUERY_DONE: "Model data downloaded",
-		LOGIN_DONE: "Login successful"
+		LOGIN_DONE: "Login successful",
+		UPDATEPROJECT_DONE: "Project successfully updated"
 	}
 };
 
