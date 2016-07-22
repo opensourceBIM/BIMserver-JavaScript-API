@@ -197,16 +197,20 @@ var BimServerClient = function(baseUrl, notifier) {
 		othis.webSocket.send(msg);
 	};
 	
-	this.setBinaryDataListener = function(channelId, listener){
-		othis.binaryDataListener[channelId] = listener;
+	this.setBinaryDataListener = function(topicId, listener){
+		othis.binaryDataListener[topicId] = listener;
 	};
 	
 	this.processNotification = function(message) {
 		if (message instanceof ArrayBuffer) {
-			var view = new DataView(message, 0, 4);
-			var channelId = view.getInt32(0);
-			var listener = othis.binaryDataListener[channelId];
-			listener(message);
+			var view = new DataView(message, 0, 8);
+			var topicId = view.getUint32(0, true) + 0x100000000 * view.getUint32(4, true); // TopicId's are of type long (64 bit)
+			var listener = othis.binaryDataListener[topicId];
+			if (listener != null) {
+				listener(message);
+			} else {
+				console.error("No listener for topicId", topicId);
+			}
 		} else {
 			var intf = message["interface"];
 			if (othis.listeners[intf] != null) {
