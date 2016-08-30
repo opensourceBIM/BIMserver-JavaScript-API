@@ -15,6 +15,13 @@
 				<targetPath>js</targetPath>
 			</resource>
 			<resource>
+				<directory>.</directory>
+				<targetPath>.</targetPath>
+				<includes>
+					<include>index.html</include>
+				</includes>
+			</resource>
+			<resource>
 				<directory>../../output</directory>
 			</resource>
 			<resource>
