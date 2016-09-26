@@ -590,23 +590,16 @@ var BimServerClient = function(baseUrl, notifier) {
 					}
 				}
 				if (data.response.exception != null) {
-//    						if (data.response.exception.message == "Invalid token" && !othis.autoLoginTried && $.cookie("username" + window.document.location.port) != null && $.cookie("autologin" + window.document.location.port) != null) {
-//    							othis.autologin($.cookie("username" + window.document.location.port), $.cookie("autologin" + window.document.location.port), function(){
-//    								othis.log("Trying to connect with autologin");
-//    								othis.multiCall(requests, callback, errorCallback);
-//    							});
-//    						} else {
-						if (showError) {
-							if (othis.lastTimeOut != null) {
-								clearTimeout(othis.lastTimeOut);
-							}
-							othis.notifier.setError(data.response.exception.message);
-						} else {
-							if (showedBusy) {
-								othis.notifier.resetStatus();
-							}
+					if (showError) {
+						if (othis.lastTimeOut != null) {
+							clearTimeout(othis.lastTimeOut);
 						}
-//    						}
+						othis.notifier.setError(data.response.exception.message);
+					} else {
+						if (showedBusy) {
+							othis.notifier.resetStatus();
+						}
+					}
 				} else {
 					if (showDone) {
 						othis.notifier.setSuccess(othis.translate(key + "_DONE"), 5000);
