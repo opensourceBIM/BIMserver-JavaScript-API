@@ -45,6 +45,7 @@ var BimServerClient = function(baseUrl, notifier) {
 	
 	othis.interfaceMapping = {
 		"ServiceInterface": "org.bimserver.ServiceInterface",
+		"NewServicesInterface": "org.bimserver.NewServicesInterface",
 		"AuthInterface": "org.bimserver.AuthInterface",
 		"OAuthInterface": "org.bimserver.OAuthInterface",
 		"SettingsInterface": "org.bimserver.SettingsInterface",
@@ -488,6 +489,11 @@ var BimServerClient = function(baseUrl, notifier) {
 	this.getJson = function(address, data, success, error){
 		var xhr = new XMLHttpRequest();
 		xhr.open("POST", address);
+		xhr.onerror = function(){
+			if (error != null) {
+				error("Unknown network error");
+			}
+		};
 		xhr.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
 		xhr.onload = function(jqXHR, textStatus, errorThrown) {
 		    if (xhr.status === 200) {
