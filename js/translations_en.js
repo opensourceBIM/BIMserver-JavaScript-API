@@ -57,8 +57,8 @@ var translations = function() {
 		INSTALLPLUGINBUNDLE_DONE: "Plugin successfully installed",
 		GETPLUGININFORMATION_BUSY: "Getting plugin information, this can take a while for large plugins...",
 		GETPLUGININFORMATION_DONE: "Plugin information successfully retrieved",
-		DOWNLOADBYNEWJSONQUERY_BUSY: "Downloading model data...",
-		DOWNLOADBYNEWJSONQUERY_DONE: "Model data downloaded",
+		DOWNLOAD_BUSY: "Downloading model data...",
+		DOWNLOAD_DONE: "Model data downloaded",
 		LOGIN_DONE: "Login successful",
 		UPDATEPROJECT_DONE: "Project successfully updated"
 	}

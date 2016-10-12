@@ -540,7 +540,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 					serializerOid: serializer.oid,
 					sync: false
 				};
-				bimServerApi.call("ServiceInterface", "downloadByNewJsonQuery", request, function(topicId){
+				bimServerApi.call("ServiceInterface", "download", request, function(topicId){
 					var url = bimServerApi.generateRevisionDownloadUrl({
 						topicId: topicId,
 						serializerOid: serializer.oid
@@ -703,7 +703,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 			});
 		}
 		othis.bimServerApi.getJsonStreamingSerializer(function(serializer){
-			bimServerApi.callWithFullIndication("ServiceInterface", "downloadByNewJsonQuery", {
+			bimServerApi.callWithFullIndication("ServiceInterface", "download", {
 				roids: [othis.roid],
 				query: JSON.stringify(query),
 				serializerOid: serializer.oid,
