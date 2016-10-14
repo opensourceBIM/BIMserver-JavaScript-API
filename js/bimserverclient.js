@@ -7,6 +7,12 @@ var ifc2x3tc1 = null;
 var ifc4 = null;
 var Model = null;
 
+// Where does this come frome? The API crashes on the absence of this
+// member function?
+String.prototype.firstUpper = function () {
+    return this.charAt(0).toUpperCase() + this.slice(1);
+}
+
 var BimServerClient = function(baseUrl, notifier) {
 	var othis = this;
 	
