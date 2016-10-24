@@ -40,12 +40,12 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	this.load = function(deep, modelLoadCallback) {
 		if (deep) {
 			othis.loading = true;
-			othis.bimServerApi.getJsonSerializer(function(serializer){
+			othis.bimServerApi.getJsonStreamingSerializer(function(serializer){
 				bimServerApi.call("ServiceInterface", "download", {
 					roid: othis.roid,
 					serializerOid: serializer.oid,
 					showOwn: true,
-					sync: true
+					sync: false
 				}, function(topicId){
 					var url = bimServerApi.generateRevisionDownloadUrl({
 						topicId: topicId,
@@ -149,6 +149,8 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		});
 		for (var fieldName in realType.fields){
 			var field = realType.fields[fieldName];
+			field.name = fieldName;
+			wrapperClass.fields.push(field);
 			(function(field, fieldName){
 				if (field.reference) {
 					wrapperClass["set" + fieldName.firstUpper() + "Wrapped"] = function(typeName, value) {
@@ -446,7 +448,9 @@ var Model = function(bimServerApi, poid, roid, schema) {
 				throw "Type " + typeName + " not found in schema " + othis.schema;
 			}
 
-			var wrapperClass = {};
+			var wrapperClass = {
+				fields: []
+			};
 			
 			wrapperClass.isA = function(typeName){
 				return othis.bimServerApi.isA(othis.schema, this.object._t, typeName);
@@ -606,6 +610,8 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	this.get = function(oids, callback) {
 		if (typeof oids == "number") {
 			oids = [oids];
+		} else if (typeof oids == "string") {
+			oids = [parseInt(oids)];
 		}
 		var query = {
 			oids: oids
@@ -621,70 +627,6 @@ var Model = function(bimServerApi, poid, roid, schema) {
 	};
 
 	this.query = function(query, callback){
-		var promise = new BimServerApiPromise();
-		var fullTypesLoading = {};
-		query.queries.forEach(function(subQuery){
-			if (subQuery.type != null) {
-				fullTypesLoading[subQuery.type] = true;
-				othis.loadedTypes[subQuery.type] = {};
-				if (subQuery.includeAllSubTypes) {
-					var schema = othis.bimServerApi.schemas[othis.schema];
-					othis.bimServerApi.getAllSubTypes(schema, subQuery.type, function(subTypeName){
-						fullTypesLoading[subTypeName] = true;
-						othis.loadedTypes[subTypeName] = {};
-					});
-				}
-			}
-		});
-		othis.bimServerApi.getJsonSerializer(function(serializer){
-			bimServerApi.callWithFullIndication("ServiceInterface", "downloadByJsonQuery", {
-				roids: [othis.roid],
-				jsonQuery: JSON.stringify(query),
-				serializerOid: serializer.oid,
-				sync: true
-			}, function(topicId){
-				var url = bimServerApi.generateRevisionDownloadUrl({
-					topicId: topicId,
-					serializerOid: serializer.oid
-				});
-				othis.bimServerApi.notifier.setInfo("Getting model data...", -1);
-				othis.bimServerApi.getJson(url, null, function(data){
-//							console.log("query", data.objects.length);
-					data.objects.forEach(function(object){
-						var wrapper = othis.objects[object._i];
-						if (wrapper == null) {
-							wrapper = othis.createWrapper(object, object._t);
-							othis.objects[object._i] = wrapper;
-							if (fullTypesLoading[object._t] != null) {
-								othis.loadedTypes[object._t][wrapper.oid] = wrapper;
-							}
-						} else {
-							if (object._s == 1) {
-								wrapper.object = object;
-							}
-						}
-//								if (othis.loadedTypes[wrapper.getType()] == null) {
-//									othis.loadedTypes[wrapper.getType()] = {};
-//								}
-//								othis.loadedTypes[wrapper.getType()][object._i] = wrapper;
-						if (object._s == 1) {
-							callback(wrapper);
-						}
-					});
-//							othis.dumpByType();
-					bimServerApi.call("ServiceInterface", "cleanupLongAction", {topicId: topicId}, function(){
-						promise.fire();
-						othis.bimServerApi.notifier.setSuccess("Model data successfully downloaded...");
-					});
-				}, function(error){
-					console.log(error);
-				});
-			});
-		});
-		return promise;
-	};
-
-	this.queryNew = function(query, callback){
 		var promise = new BimServerApiPromise();
 		var fullTypesLoading = {};
 		if (query.queries != null) {
@@ -791,12 +733,12 @@ var Model = function(bimServerApi, poid, roid, schema) {
 			});
 
 			if (query.queries.length > 0) {
-				othis.bimServerApi.getJsonSerializer(function(serializer){
+				othis.bimServerApi.getJsonStreamingSerializer(function(serializer){
 					bimServerApi.call("ServiceInterface", "download", {
 						roids: [othis.roid],
 						query: JSON.stringify(query),
 						serializerOid: serializer.oid,
-						sync: true
+						sync: false
 					}, function(topicId){
 						var url = bimServerApi.generateRevisionDownloadUrl({
 							topicId: topicId,
@@ -806,21 +748,21 @@ var Model = function(bimServerApi, poid, roid, schema) {
 							if (othis.loadedTypes[type] == null) {
 								othis.loadedTypes[type] = {};
 							}
-							data.objects.forEach(function(object){
+							data.objects.some(function(object){
 								if (othis.objects[object._i] != null) {
 									// Hmm we are doing a query on type, but some objects have already loaded, let's use those instead
 									var wrapper = othis.objects[object._i];
 									if (wrapper.object._s == 1) {
 										if (wrapper.isA(type)) {
 											othis.loadedTypes[type][object._i] = wrapper;
-											callback(wrapper);
+											return callback(wrapper);
 										}
 									} else {
 										// Replace the value with something that's LOADED
 										wrapper.object = object;
 										if (wrapper.isA(type)) {
 											othis.loadedTypes[type][object._i] = wrapper;
-											callback(wrapper);
+											return callback(wrapper);
 										}
 									}
 								} else {
@@ -828,7 +770,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 									othis.objects[object._i] = wrapper;
 									if (wrapper.isA(type) && object._s == 1) {
 										othis.loadedTypes[type][object._i] = wrapper;
-										callback(wrapper);
+										return callback(wrapper);
 									}
 								}
 							});
