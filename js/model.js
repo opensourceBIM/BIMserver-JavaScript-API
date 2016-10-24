@@ -772,8 +772,11 @@ var Model = function(bimServerApi, poid, roid, schema) {
 					types.push(subType);	
 				});
 			}
-			
-			var typesToLoad = [];
+
+			var query = {
+				queries: [
+				]
+			};
 			
 			types.forEach(function(type){
 				if (othis.loadedTypes[type] != null) {
@@ -781,20 +784,18 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						callback(othis.loadedTypes[type][oid]);
 					}
 				} else {
-					typesToLoad.push(type);
+					query.queries.push({
+						type: type
+					});
 				}
 			});
 
-			if (typesToLoad.length > 0) {
+			if (query.queries.length > 0) {
 				othis.bimServerApi.getJsonSerializer(function(serializer){
-					bimServerApi.call("ServiceInterface", "downloadByTypes", {
+					bimServerApi.call("ServiceInterface", "download", {
 						roids: [othis.roid],
-						classNames: typesToLoad,
-						schema: othis.schema,
-						includeAllSubtypes: false,
+						query: JSON.stringify(query),
 						serializerOid: serializer.oid,
-						useObjectIDM: false,
-						deep: false,
 						sync: true
 					}, function(topicId){
 						var url = bimServerApi.generateRevisionDownloadUrl({
