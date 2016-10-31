@@ -5,6 +5,7 @@ if (typeof XMLHttpRequest != "function") {
 //var BimServerApiPromise = null;
 var ifc2x3tc1 = null;
 var ifc4 = null;
+var geometry = null;
 var Model = null;
 
 // Where does this come frome? The API crashes on the absence of this
@@ -33,6 +34,11 @@ var BimServerClient = function(baseUrl, notifier) {
 //	} else {
 //		console.error("Missing BimServerApiPromise");
 //	}
+	if (typeof window.geometry == "undefined") {
+		var geometry = require("./geometry.js");
+	} else {
+		geometry = window.geometry;
+	}
 	if (typeof window.ifc2x3tc1 == "undefined") {
 		var ifc2x3tc1 = require("./ifc2x3tc1.js");
 	} else {
@@ -119,6 +125,11 @@ var BimServerClient = function(baseUrl, notifier) {
 		othis.call("AdminInterface", "getServerInfo", {}, function(serverInfo){
 			othis.version = serverInfo.version;
 			var versionString = othis.version.major + "." + othis.version.minor + "." + othis.version.revision;
+
+			if (geometry != null) {
+				othis.schemas["geometry"] = geometry().classes;
+				othis.addSubtypesToSchema(othis.schemas["geometry"]);
+			}
 
 			if (ifc2x3tc1 != null) {
 				othis.schemas["ifc2x3tc1"] = ifc2x3tc1().classes;
@@ -660,8 +671,11 @@ var BimServerClient = function(baseUrl, notifier) {
 		return promise;
 	};
 
-	this.getModel = function(poid, roid, schema, deep, callback) {
+	this.getModel = function(poid, roid, schema, deep, callback, name) {
 		var model = new Model(othis, poid, roid, schema);
+		if (name != null) {
+			model.name = name;
+		}
 		model.load(deep, callback);
 		return model;
 	};
@@ -694,6 +708,10 @@ var BimServerClient = function(baseUrl, notifier) {
 			return true;
 		}
 		var subject = othis.schemas[schema][typeSubject];
+		if (typeSubject == "GeometryInfo") {
+			subject = othis.schemas["geometry"][typeSubject];
+		}
+
 		if (subject == null) {
 			console.log(typeSubject, "not found");
 		}

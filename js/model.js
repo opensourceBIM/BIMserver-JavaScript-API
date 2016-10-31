@@ -144,6 +144,9 @@ var Model = function(bimServerApi, poid, roid, schema) {
 
 	this.extendClass = function(wrapperClass, typeName){
 		var realType = othis.bimServerApi.schemas[othis.schema][typeName];
+		if (typeName == "GeometryInfo") {
+			realType = othis.bimServerApi.schemas["geometry"][typeName];
+		}
 		realType.superclasses.forEach(function(typeName){
 			othis.extendClass(wrapperClass, typeName);
 		});
@@ -443,9 +446,11 @@ var Model = function(bimServerApi, poid, roid, schema) {
 			var realType = othis.bimServerApi.schemas[othis.schema][typeName];
 			if (realType == null) {
 				if (typeName == "GeometryInfo") {
-					return null;
+					realType = othis.bimServerApi.schemas["geometry"][typeName];
 				}
-				throw "Type " + typeName + " not found in schema " + othis.schema;
+				if (realType == null) {
+					throw "Type " + typeName + " not found in schema " + othis.schema;
+				}
 			}
 
 			var wrapperClass = {
@@ -484,6 +489,9 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		}
 		object.oid = object._i;
 		var cl = othis.getClass(typeName);
+		if (cl == null) {
+			console.error("No class found for " + typeName);
+		}
 		var wrapper = Object.create(cl);
 		// transient variables
 		wrapper.trans = {
@@ -550,9 +558,6 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						serializerOid: serializer.oid
 					});
 					othis.bimServerApi.getJson(url, null, function(data){
-						if (data == null) {
-							debugger;
-						}
 						if (data.objects.length > 0) {
 							var done = 0;
 							data.objects.forEach(function(object){
