@@ -22,6 +22,11 @@ var geometry = function() {
 					},
 				}				
 			},
+			"GeometryData" : {
+				"domain": "bimserver",
+				"superclasses": [],
+				"fields": {}
+			},
 			"GeometryInfo" : {
 				"domain" : "bimserver",
 				"superclasses" : [],

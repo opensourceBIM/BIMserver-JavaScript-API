@@ -708,7 +708,7 @@ var BimServerClient = function(baseUrl, notifier) {
 			return true;
 		}
 		var subject = othis.schemas[schema][typeSubject];
-		if (typeSubject == "GeometryInfo") {
+		if (typeSubject == "GeometryInfo" || typeSubject == "GeometryData") {
 			subject = othis.schemas["geometry"][typeSubject];
 		}
 
