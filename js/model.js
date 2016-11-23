@@ -273,7 +273,9 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						}
 						var embValue = object["_e" + fieldName];
 						if (embValue != null) {
-							callback(embValue);
+							if (callback != null) {
+								callback(embValue);
+							}
 							promise.fire();
 							return promise;
 						}
@@ -631,7 +633,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		return othis.getByX("getByName", "name", othis.namesFetching, othis.objectsByName, query, function(object){return object.getName == null ? null : object.getName()}, names, callback);
 	};
 
-	this.query = function(query, callback){
+	this.query = function(query, callback, errorCallback){
 		var promise = new BimServerApiPromise();
 		var fullTypesLoading = {};
 		if (query.queries != null) {
@@ -694,6 +696,12 @@ var Model = function(bimServerApi, poid, roid, schema) {
 								othis.bimServerApi.notifier.setSuccess("Model data successfully downloaded...");
 							});
 						});								
+					} else if (state.state == "AS_ERROR") {
+						if (errorCallback != null) {
+							errorCallback(state.title);
+						} else {
+							console.error(state.title);
+						}
 					}
 				});
 			});
