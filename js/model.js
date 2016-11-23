@@ -144,7 +144,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 
 	this.extendClass = function(wrapperClass, typeName){
 		var realType = othis.bimServerApi.schemas[othis.schema][typeName];
-		if (typeName == "GeometryInfo") {
+		if (typeName == "GeometryInfo" || typeName == "GeometryData") {
 			realType = othis.bimServerApi.schemas["geometry"][typeName];
 		}
 		realType.superclasses.forEach(function(typeName){
@@ -447,7 +447,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		if (othis.bimServerApi.classes[typeName] == null) {
 			var realType = othis.bimServerApi.schemas[othis.schema][typeName];
 			if (realType == null) {
-				if (typeName == "GeometryInfo") {
+				if (typeName == "GeometryInfo" || typeName == "GeometryData") {
 					realType = othis.bimServerApi.schemas["geometry"][typeName];
 				}
 				if (realType == null) {

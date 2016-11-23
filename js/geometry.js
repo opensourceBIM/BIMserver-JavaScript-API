@@ -22,6 +22,11 @@ var geometry = function() {
 					},
 				}				
 			},
+			"GeometryData" : {
+				"domain": "bimserver",
+				"superclasses": [],
+				"fields": {}
+			},
 			"GeometryInfo" : {
 				"domain" : "bimserver",
 				"superclasses" : [],
@@ -75,4 +80,10 @@ var geometry = function() {
 			}
 		}
 	}
+}
+
+if (typeof window != "undefined") {
+	window.geometry = geometry;
+} else if (typeof module != "undefined") {
+	module.exports = geometry;
 }
