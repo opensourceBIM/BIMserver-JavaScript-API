@@ -6,7 +6,7 @@ if (typeof XMLHttpRequest != "function") {
 var ifc2x3tc1 = null;
 var ifc4 = null;
 var geometry = null;
-var Model = null;
+//var Model = null;
 
 // Where does this come frome? The API crashes on the absence of this
 // member function?
