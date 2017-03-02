@@ -6,6 +6,8 @@
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<timestamp>${maven.build.timestamp}</timestamp>
+		<maven.build.timestamp.format>yyyy-MM-dd'T'HH:mm:ssZ</maven.build.timestamp.format>
 	</properties>
 	<description>JavaScript API for BIMserver</description>
 	<build>
@@ -27,6 +29,7 @@
 			<resource>
 				<directory>plugin</directory>
 				<targetPath>plugin</targetPath>
+				<filtering>true</filtering>
 			</resource>
 		</resources>
 		<plugins>
