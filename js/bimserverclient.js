@@ -784,7 +784,7 @@ var BimServerClient = function(baseUrl, notifier) {
 		xhr.send(formData);
 	};
 
-	this.addExtendedData = function(roid, title, schema, file, success, error){
+	this.addExtendedData = function(roid, title, schema, data, success, error){
 		var reader = new FileReader();
 		var xhr = new XMLHttpRequest();
 		
@@ -807,19 +807,29 @@ var BimServerClient = function(baseUrl, notifier) {
 				error(result.exception);
 			}
 		}, false);
-		xhr.open("POST", othis.baseUrl + "/upload"); 
-		reader.onload = function(evt) {
+		xhr.open("POST", othis.baseUrl + "/upload");
+		if (typeof data == "File") {
+			reader.onload = function(evt) {
+				var formData = new FormData();
+				formData.append("action", "file");
+				formData.append("token", othis.token);
+				file.type = schema.contentType;
+				
+				var blob = new Blob([file], {type: schema.contentType});
+				
+				formData.append("file", blob, file.name);
+				xhr.send(formData);
+			};
+			reader.readAsBinaryString(file);
+		} else {
+			// Assuming data is a String
 			var formData = new FormData();
 			formData.append("action", "file");
 			formData.append("token", othis.token);
+			formData.append("file", data);
 			file.type = schema.contentType;
-			
-			var blob = new Blob([file], {type: schema.contentType});
-			
-			formData.append("file", blob, file.name);
 			xhr.send(formData);
-		};
-		reader.readAsBinaryString(file);
+		}
 	};
 	
 	this.setToken = function(token, callback, errorCallback) {
