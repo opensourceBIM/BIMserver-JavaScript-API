@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opensourcebim</groupId>
 	<artifactId>bimserverapi</artifactId>
-	<version>0.0.115</version>
+	<version>0.0.116-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -128,7 +128,7 @@
 		<url>https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</url>
 		<connection>scm:git:https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</connection>
 		<developerConnection>scm:git:https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</developerConnection>
-		<tag>bimserverapi-0.0.115</tag>
+		<tag>bimserverapi-0.0.112</tag>
 	</scm>
 	<organization>
 		<name>OpenSource BIM</name>
