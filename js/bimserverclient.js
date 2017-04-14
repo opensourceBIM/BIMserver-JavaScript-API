@@ -826,7 +826,7 @@ var BimServerClient = function(baseUrl, notifier) {
 			var formData = new FormData();
 			formData.append("action", "file");
 			formData.append("token", othis.token);
-			formData.append("file", blob, blob.name);
+			formData.append("file", data, data.name);
 			xhr.send(formData);
 		}
 	};
