@@ -822,11 +822,11 @@ var BimServerClient = function(baseUrl, notifier) {
 			};
 			reader.readAsBinaryString(file);
 		} else {
-			// Assuming data is a String
+			// Assuming data is a Blob
 			var formData = new FormData();
 			formData.append("action", "file");
 			formData.append("token", othis.token);
-			formData.append("file", data);
+			formData.append("file", blob, blob.name);
 			xhr.send(formData);
 		}
 	};
