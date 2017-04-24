@@ -639,14 +639,26 @@ var Model = function(bimServerApi, poid, roid, schema) {
 		if (query.queries != null) {
 			query.queries.forEach(function(subQuery){
 				if (subQuery.type != null) {
-					fullTypesLoading[subQuery.type] = true;
-					othis.loadedTypes[subQuery.type] = {};
-					if (subQuery.includeAllSubtypes) {
-						var schema = othis.bimServerApi.schemas[othis.schema];
-						othis.bimServerApi.getAllSubTypes(schema, subQuery.type, function(subTypeName){
-							fullTypesLoading[subTypeName] = true;
-							othis.loadedTypes[subTypeName] = {};
-						});
+					if (typeof subQuery.type === "object") {
+						fullTypesLoading[subQuery.type.name] = true;
+						othis.loadedTypes[subQuery.type.name] = {};
+						if (subQuery.type.includeAllSubtypes) {
+							var schema = othis.bimServerApi.schemas[othis.schema];
+							othis.bimServerApi.getAllSubTypes(schema, subQuery.type.name, function(subTypeName){
+								fullTypesLoading[subTypeName] = true;
+								othis.loadedTypes[subTypeName] = {};
+							});
+						}
+					} else {
+						fullTypesLoading[subQuery.type] = true;
+						othis.loadedTypes[subQuery.type] = {};
+						if (subQuery.includeAllSubtypes) {
+							var schema = othis.bimServerApi.schemas[othis.schema];
+							othis.bimServerApi.getAllSubTypes(schema, subQuery.type, function(subTypeName){
+								fullTypesLoading[subTypeName] = true;
+								othis.loadedTypes[subTypeName] = {};
+							});
+						}
 					}
 				}
 			});
