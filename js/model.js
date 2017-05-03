@@ -262,8 +262,8 @@ var Model = function(bimServerApi, poid, roid, schema) {
 						var promise = new BimServerApiPromise();
 						if (object[fieldName] != null) {
 							if (field.many) {
-								object[fieldName].forEach(function(item){
-									callback(item);
+								object[fieldName].forEach(function(item, index){
+									callback(item, index);
 								});
 							} else {
 								callback(object[fieldName]);
@@ -287,7 +287,7 @@ var Model = function(bimServerApi, poid, roid, schema) {
 							if (value != null) {
 								model.get(value, function(v){
 									object[fieldName].push(v);
-									callback(v);
+									callback(v, object[fieldName].length - 1);
 								}).done(function(){
 									promise.fire();
 								});
