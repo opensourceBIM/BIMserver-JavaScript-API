@@ -63,7 +63,8 @@ var translations = function() {
 		UPDATEPROJECT_DONE: "Project successfully updated",
 		TRIGGERREVISIONSERVICE_BUSY: "Triggering service...",
 		TRIGGERREVISIONSERVICE_DONE: "Service triggered successfully",
-		INSTALLPLUGINBUNDLEFROMFILE_DONE: "Plugin bundle successfully installed from file"
+		INSTALLPLUGINBUNDLEFROMFILE_DONE: "Plugin bundle successfully installed from file",
+		CHECKINFROMURL_BUSY: "Checking in from URL..."
 	}
 };
 
