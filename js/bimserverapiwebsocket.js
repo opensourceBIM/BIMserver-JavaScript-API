@@ -115,7 +115,7 @@ var BimServerApiWebSocket = function(baseUrl, bimServerApi) {
 	};
 
 	this._onclose = function(m) {
-		console.log("WebSocket closed");
+		console.log("WebSocket closed", m);
 		clearInterval(othis.intervalId);
 		othis._ws = null;
 		othis.connected = false;
