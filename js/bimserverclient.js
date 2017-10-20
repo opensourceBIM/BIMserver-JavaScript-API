@@ -1,6 +1,6 @@
-if (typeof XMLHttpRequest != "function") {
-	var XMLHttpRequest = require("xhr2");
-}
+// if (typeof XMLHttpRequest != "function") {
+// 	var XMLHttpRequest = require("xhr2");
+// }
 
 //var BimServerApiPromise = null;
 var ifc2x3tc1 = null;
