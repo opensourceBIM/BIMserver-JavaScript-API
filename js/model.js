@@ -296,12 +296,12 @@ var Model = function(bimServerApi, poid, roid, schema) {
 							}
 						} else {
 							if (value != null) {
-								var ref = othis.objects[value];
-								if (value == -1) {
+								var ref = othis.objects[value._i];
+								if (value._i == -1) {
 									callback(null);
 									promise.fire();
 								} else if (ref == null || ref.object._s == 0) {
-									model.get(value, function(v){
+									model.get(value._i, function(v){
 										object[fieldName] = v;
 										callback(v);
 									}).done(function(){
@@ -619,6 +619,16 @@ var Model = function(bimServerApi, poid, roid, schema) {
 			oids = [oids];
 		} else if (typeof oids == "string") {
 			oids = [parseInt(oids)];
+		} else if (Array.isArray(oids)) {
+			var newOids = [];
+			oids.forEach(function(oid){
+				if (typeof oid == "object") {
+					newOids.push(oid._i);
+				} else {
+					newOids.push(oid);
+				}
+			});
+			oids = newOids;
 		}
 		var query = {
 			oids: oids
