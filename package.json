@@ -3,17 +3,20 @@
   "groupId": "org.opensourcebim",
   "artifactId": "javascriptapi",
   "organization": "OpenSource BIM",
-  "version": "%VERSION%",
+  "version": "0.0.122",
   "description": "A JavaScript API for the OpenSource BIMserver",
   "author": {
     "name": "Ruben de Laat",
     "email": "ruben@logic-labs.nl"
   },
-  "scripts": {},
+  "scripts": {
+    "build": "rollup -c"
+  },
   "files": [
     "js"
   ],
-  "main": "js/index.js",
+  "main": "build/bimserverapi.js",
+  "module": "js/bimserverclient.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/opensourceBIM/BIMserver-JavaScript-API"
@@ -22,19 +25,29 @@
     "url": "https://github.com/opensourceBIM/BIMserver-JavaScript-API/issues"
   },
   "keywords": [],
+  "browser": {
+    "xhr2": false,
+    "websocket": false
+  },
   "dependencies": {
-    "xhr2": "*",
-    "requirejs": "*",
     "websocket": "*",
-    "form-data": "*"
+    "xhr2": "*"
   },
   "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-plugin-external-helpers": "^6.22.0",
+    "babel-preset-env": "^1.6.1",
     "grunt": "*",
+    "grunt-contrib-concat": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-nodeunit": "*",
     "grunt-contrib-uglify": "*",
-    "grunt-contrib-concat": "*",
-    "grunt-zip": "*"
+    "grunt-zip": "*",
+    "rollup": "^0.50.0",
+    "rollup-plugin-babel": "^3.0.2",
+    "rollup-plugin-commonjs": "^8.2.6",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-uglify": "^2.0.1"
   },
   "preferGlobal": true,
   "private": false,
