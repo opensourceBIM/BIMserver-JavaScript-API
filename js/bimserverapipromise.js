@@ -1,93 +1,87 @@
-var BimServerApiPromise = function(counter) {
-	var o = this;
-	
-	o.isDone = false;
-	o.chains = [];
-	o.callback = null;
-	o.counter = counter;
+export class BimServerApiPromise {
+	constructor(counter = null) {
+		this.isDone = false;
+		this.chains = [];
+		this.callback = null;
+		this.counter = counter;
+	}
 
-	this.done = function(callback){
-		if (o.isDone) {
+	done(callback) {
+		if (this.isDone) {
 			callback();
 		} else {
-			if (o.callback != null) {
-				if (o.callback instanceof Array) {
-					o.callback.push(callback);
+			if (this.callback != null) {
+				if (this.callback instanceof Array) {
+					this.callback.push(callback);
 				} else {
-					o.callback = [o.callback, callback];
+					this.callback = [this.callback, callback];
 				}
 			} else {
-				o.callback = callback;
+				this.callback = callback;
 			}
 		}
-		return o;
-	};
-	
-	this.inc = function(){
-		if (o.counter == null) {
-			o.counter = 0;
-		}
-		o.counter++;
-	};
+		return this;
+	}
 
-	this.dec = function(){
-		if (o.counter == null) {
-			o.counter = 0;
+	inc() {
+		if (this.counter == null) {
+			this.counter = 0;
 		}
-		o.counter--;
-		if (o.counter == 0) {
-			o.done = true;
-			o.fire();
-		}
-	};
+		this.counter++;
+	}
 
-	this.fire = function(){
-		if (o.isDone) {
+	dec() {
+		if (this.counter == null) {
+			this.counter = 0;
+		}
+		this.counter--;
+		if (this.counter === 0) {
+			this.done = true;
+			this.fire();
+		}
+	}
+
+	fire() {
+		if (this.isDone) {
 			console.log("Promise already fired, not triggering again...");
 			return;
 		}
-		o.isDone = true;
-		if (o.callback != null) {
-			if (o.callback instanceof Array) {
-				o.callback.forEach(function(cb){
+		this.isDone = true;
+		if (this.callback != null) {
+			if (this.callback instanceof Array) {
+				this.callback.forEach((cb) => {
 					cb();
 				});
 			} else {
-				o.callback();
+				this.callback();
 			}
 		}
-	};
-	
-	this.chain = function(otherPromise) {
-		var promises;
+	}
+
+	chain(otherPromise) {
+		let promises;
 		if (otherPromise instanceof Array) {
 			promises = otherPromise;
 		} else {
 			promises = [otherPromise];
 		}
-		promises.forEach(function(promise){
+		promises.forEach((promise) => {
 			if (!promise.isDone) {
-				o.chains.push(promise);
-				promise.done(function(){
-					for (var i=o.chains.length-1; i>=0; i--) {
-						if (o.chains[i] == promise) {
-							o.chains.splice(i, 1);
+				this.chains.push(promise);
+				promise.done(() => {
+					for (let i = this.chains.length - 1; i >= 0; i--) {
+						if (this.chains[i] == promise) {
+							this.chains.splice(i, 1);
 						}
 					}
-					if (o.chains.length == 0) {
-						o.fire();
+					if (this.chains.length === 0) {
+						this.fire();
 					}
 				});
 			}
 		});
-		if (o.chains.length == 0) {
-			o.fire();
+		if (this.chains.length === 0) {
+			this.fire();
 		}
-	};
-};
-
-if (typeof window != "undefined") {
-	window.BimServerApiPromise = BimServerApiPromise;
-} else if (typeof module != "undefined") {
-	module.exports = BimServerApiPromise;
+	}
 }
