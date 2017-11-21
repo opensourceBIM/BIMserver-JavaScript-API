@@ -784,7 +784,7 @@ export class Model {
 				queries: []
 			};
 
-			types.forEach(function (type) {
+			types.forEach((type) => {
 				if (this.loadedTypes[type] != null) {
 					for (let oid in this.loadedTypes[type]) {
 						callback(this.loadedTypes[type][oid]);
