@@ -3,7 +3,7 @@
   "groupId": "org.opensourcebim",
   "artifactId": "javascriptapi",
   "organization": "OpenSource BIM",
-  "version": "0.0.122",
+  "version": "%VERSION%",
   "description": "A JavaScript API for the OpenSource BIMserver",
   "author": {
     "name": "Ruben de Laat",

@@ -1,30 +1,30 @@
 import {
 	BimServerApiPromise
-} from './bimserverapipromise';
+} from './bimserverapipromise.js';
 
 import {
 	BimServerApiWebSocket
-} from './bimserverapiwebsocket';
+} from './bimserverapiwebsocket.js';
 
 import {
 	geometry
-} from './geometry';
+} from './geometry.js';
 
 import {
 	ifc2x3tc1
-} from './ifc2x3tc1';
+} from './ifc2x3tc1.js';
 
 import {
 	ifc4
-} from './ifc4';
+} from './ifc4.js';
 
 import {
 	Model
-} from './model';
+} from './model.js';
 
 import {
 	translations
-} from './translations_en';
+} from './translations_en.js';
 //import XMLHttpRequest from 'xhr2';
 
 // Where does this come frome? The API crashes on the absence of this
@@ -33,7 +33,7 @@ String.prototype.firstUpper = function () {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-export class BimServerClient {
+export default class BimServerClient {
 	constructor(baseUrl, notifier = null) {
 		this.interfaceMapping = {
 			"ServiceInterface": "org.bimserver.ServiceInterface",

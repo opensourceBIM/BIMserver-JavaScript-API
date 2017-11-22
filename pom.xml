@@ -125,8 +125,6 @@
 			<url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
 		</repository>
 	</distributionManagement>
-	<dependencies>
-	</dependencies>
 	<scm>
 		<url>https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</url>
 		<connection>scm:git:https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</connection>
