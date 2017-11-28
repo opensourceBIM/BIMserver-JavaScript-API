@@ -15,8 +15,6 @@ String.prototype.firstUpper = function () {
 };
 
 export default class BimServerClient {
-	this.BimServerApiPromise = BimServerApiPromise;
-	
 	constructor(baseUrl, notifier = null) {
 		this.interfaceMapping = {
 			"ServiceInterface": "org.bimserver.ServiceInterface",
