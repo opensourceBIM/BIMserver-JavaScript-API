@@ -8,7 +8,7 @@ export default {
 	output: {
 		format: 'umd',
 		name: 'bimserverapi',
-		file: 'build/bimserverapi.js',
+		file: 'build/bimserverapitranspiled.js',
 		sourceMap: true
 	},
 	plugins: [
