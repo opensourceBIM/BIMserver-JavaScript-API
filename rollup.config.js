@@ -6,7 +6,7 @@ import uglify from 'rollup-plugin-uglify';
 export default {
 	input: 'js/bimserverclient.js',
 	output: {
-		format: 'iife',
+		format: 'umd',
 		name: 'bimserverapi',
 		file: 'build/bimserverapi.js',
 		sourceMap: true
