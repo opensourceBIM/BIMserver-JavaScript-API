@@ -10,6 +10,8 @@ export default {
 		name: 'bimserverapi',
 		file: 'build/bimserverapi.js'
 	},
+	format: 'iife',
+	sourceMap: true,
 	plugins: [
 		resolve({
 			jsnext: true,
