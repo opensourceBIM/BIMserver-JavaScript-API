@@ -9,9 +9,6 @@ import {translations} from './translations_en.js';
 export { default as BimServerApiPromise } from './bimserverapipromise.js';
 export { default as BimServerApiWebSocket } from './bimserverapiwebsocket.js';
 export { default as Model } from './model.js';
-export { default as ifc4 } from './ifc4.js';
-export { default as ifc2x3tc1 } from './ifc2x3tc1.js';
-export { default as geometry } from './geometry.js';
 
 //import XMLHttpRequest from 'xhr2';
 
