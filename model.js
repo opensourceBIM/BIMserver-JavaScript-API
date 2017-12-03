@@ -38,9 +38,8 @@ export default class Model {
 			this.loading = true;
 			this.bimServerApi.getJsonStreamingSerializer(function (serializer) {
 				othis.bimServerApi.call("ServiceInterface", "download", {
-					roid: othis.roid,
+					roids: [othis.roid],
 					serializerOid: serializer.oid,
-					showOwn: true,
 					sync: false
 				}, function (topicId) {
 					const url = othis.bimServerApi.generateRevisionDownloadUrl({
