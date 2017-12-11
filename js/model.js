@@ -310,12 +310,12 @@ export default class Model {
 							}
 						} else {
 							if (value != null) {
-								const ref = othis.objects[value];
-								if (value == -1) {
+								const ref = othis.objects[value._i];
+								if (value._i == -1) {
 									callback(null);
 									promise.fire();
 								} else if (ref == null || ref.object._s == 0) {
-									model.get(value, function (v) {
+									model.get(value._i, function (v) {
 										object[fieldName] = v;
 										callback(v);
 									}).done(function () {
@@ -340,7 +340,7 @@ export default class Model {
 							if (object[fieldName] == null) {
 								object[fieldName] = [];
 							}
-							object[fieldName].push = function () {};
+//							object[fieldName].push = function () {};
 						}
 						if (callback != null) {
 							callback(object[fieldName]);
