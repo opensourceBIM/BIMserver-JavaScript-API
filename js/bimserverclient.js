@@ -761,8 +761,8 @@ export default class BimServerClient {
 				}
 			}, false);
 
-		xhr.addEventListener("load", () => {
-			const result = JSON.parse(this.response);
+		xhr.addEventListener("load", (event) => {
+			const result = JSON.parse(xhr.response);
 
 			if (result.exception == null) {
 				if (success != null) {
