@@ -62,5 +62,6 @@ export const translations = {
 	TRIGGERREVISIONSERVICE_BUSY: "Triggering service...",
 	TRIGGERREVISIONSERVICE_DONE: "Service triggered successfully",
 	INSTALLPLUGINBUNDLEFROMFILE_DONE: "Plugin bundle successfully installed from file",
-	CHECKINFROMURL_BUSY: "Checking in from URL..."
+	CHECKINFROMURL_BUSY: "Checking in from URL...",
+	ERROR_REMOTE_METHOD_CALL: "Remote error (server probably down or not reachable)"
 };
