@@ -5,7 +5,7 @@ module.exports = function(grunt) {
 		concat : {
 			js : {
 				files : {
-					"output/bimserverapi-%VERSION%.js" : [ "js/bimserverapipromise.js", "js/bimserverapiwebsocket.js", "js/geometry.js", "js/ifc4.js", "js/ifc2x3tc1.js", "js/model.js", "js/translations_en.js", "js/bimserverclient.js" ]
+					"output/bimserverapi-%VERSION%.js" : [ "bimserverapipromise.js", "bimserverapiwebsocket.js", "geometry.js", "ifc4.js", "ifc2x3tc1.js", "model.js", "translations_en.js", "bimserverclient.js" ]
 				},
 			}
 		},
@@ -26,7 +26,7 @@ module.exports = function(grunt) {
 			}
 		},
 		zip: {
-			"output/bimserverapi-source-%VERSION%.zip": ["js/*.js"]
+			"output/bimserverapi-source-%VERSION%.zip": ["bimserverapipromise.js", "bimserverapiwebsocket.js", "geometry.js", "ifc4.js", "ifc2x3tc1.js", "model.js", "translations_en.js", "bimserverclient.js"]
 		}
 	});
 
