@@ -13,14 +13,11 @@
 	<build>
 		<resources>
 			<resource>
-				<directory>js</directory>
-				<targetPath>js</targetPath>
-			</resource>
-			<resource>
 				<directory>.</directory>
 				<targetPath>.</targetPath>
 				<includes>
 					<include>index.html</include>
+					<include>*.js</include>
 				</includes>
 			</resource>
 			<resource>

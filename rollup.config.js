@@ -4,11 +4,11 @@ import babel from 'rollup-plugin-babel';
 import uglify from 'rollup-plugin-uglify';
 
 export default {
-	input: 'js/bimserverclient.js',
+	input: 'bimserverclient.js',
 	output: {
 		format: 'umd',
 		name: 'bimserverapi',
-		file: 'build/bimserverapitranspiled.js',
+		file: 'build/bimserverapi.umd.js',
 		sourceMap: true
 	},
 	plugins: [
