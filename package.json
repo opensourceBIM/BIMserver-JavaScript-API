@@ -16,7 +16,7 @@
     "js"
   ],
   "main": "build/bimserverapi.js",
-  "module": "js/bimserverclient.js",
+  "module": "bimserverclient.js",
   "repository": {
     "type": "git",
     "url": "https://github.com/opensourceBIM/BIMserver-JavaScript-API"

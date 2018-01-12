@@ -16,24 +16,24 @@ The "?_v=%VERSION%" additions are there for efficient caching purposes. Any serv
 
 <h3>Links</h3>
 <ul>
-	<li><a href="js/bimserverapipromise.js?_v=%VERSION%">js/bimserverapipromise.js?_v=%VERSION%</a></li>
-	<li><a href="js/bimserverapiwebsocket.js?_v=%VERSION%">js/bimserverapiwebsocket.js?_v=%VERSION%</a></li>
-	<li><a href="js/bimserverclient.js?_v=%VERSION%">js/bimserverclient.js?_v=%VERSION%</a></li>
-	<li><a href="js/ifc2x3tc1.js?_v=%VERSION%">js/ifc2x3tc1.js?_v=%VERSION%</a></li>
-	<li><a href="js/ifc4.js?_v=%VERSION%">js/ifc4.js?_v=%VERSION%</a></li>
-	<li><a href="js/model.js?_v=%VERSION%">js/model.js?_v=%VERSION%</a></li>
-	<li><a href="js/translations_en.js?_v=%VERSION%">js/translations_en.js?_v=%VERSION%</a></li>
+	<li><a href="bimserverapipromise.js?_v=%VERSION%">bimserverapipromise.js?_v=%VERSION%</a></li>
+	<li><a href="bimserverapiwebsocket.js?_v=%VERSION%">bimserverapiwebsocket.js?_v=%VERSION%</a></li>
+	<li><a href="bimserverclient.js?_v=%VERSION%">bimserverclient.js?_v=%VERSION%</a></li>
+	<li><a href="ifc2x3tc1.js?_v=%VERSION%">ifc2x3tc1.js?_v=%VERSION%</a></li>
+	<li><a href="ifc4.js?_v=%VERSION%">ifc4.js?_v=%VERSION%</a></li>
+	<li><a href="model.js?_v=%VERSION%">model.js?_v=%VERSION%</a></li>
+	<li><a href="translations_en.js?_v=%VERSION%">translations_en.js?_v=%VERSION%</a></li>
 </ul>
 
 To include this library in your project, copy this to your <pre>&lt;head&gt;</pre>
 <pre>
-&lt;script type="module" src="js/bimserverapipromise.js?_v=%VERSION%"&gt;&lt;/script&gt;
-&lt;script type="module" src="js/bimserverapiwebsocket.js?_v=%VERSION%"&gt;&lt;/script&gt;
-&lt;script type="module" src="js/bimserverclient.js?_v=%VERSION%"&gt;&lt;/script&gt;
-&lt;script type="module" src="js/ifc2x3tc1.js?_v=%VERSION%"&gt;&lt;/script&gt;
-&lt;script type="module" src="js/ifc4.js?_v=%VERSION%"&gt;&lt;/script&gt;
-&lt;script type="module" src="js/model.js?_v=%VERSION%"&gt;&lt;/script&gt;
-&lt;script type="module" src="js/translations_en.js?_v=%VERSION%"&gt;&lt;/script&gt;
+&lt;script type="module" src="bimserverapipromise.js?_v=%VERSION%"&gt;&lt;/script&gt;
+&lt;script type="module" src="bimserverapiwebsocket.js?_v=%VERSION%"&gt;&lt;/script&gt;
+&lt;script type="module" src="bimserverclient.js?_v=%VERSION%"&gt;&lt;/script&gt;
+&lt;script type="module" src="ifc2x3tc1.js?_v=%VERSION%"&gt;&lt;/script&gt;
+&lt;script type="module" src="ifc4.js?_v=%VERSION%"&gt;&lt;/script&gt;
+&lt;script type="module" src="model.js?_v=%VERSION%"&gt;&lt;/script&gt;
+&lt;script type="module" src="translations_en.js?_v=%VERSION%"&gt;&lt;/script&gt;
 </pre>
 
 Combined minified version (only available on a released version):
@@ -43,7 +43,7 @@ Combined minified version (only available on a released version):
 <h1>Static import example</h1>
 <pre>
 // Import the library, all dependencies will be handled by the module system
-import BimServerClient from './js/bimserverclient.js';
+import BimServerClient from './bimserverclient.js';
 
 // Create a new API, the path given should point to the base path of a BIMserver. This can also be a full URL like "http://bimserveraddress"
 var api = new BimServerClient("../..");
@@ -73,7 +73,7 @@ api.init((client, version) => {
 </pre>
 
 <script type="module">
-import BimServerClient from './js/bimserverclient.js';
+import BimServerClient from './bimserverclient.js';
 var api = new BimServerClient("../..");
 api.init((client, version) => {
 	document.getElementById("version").innerHTML = JSON.stringify(version.version, 0, 2);
