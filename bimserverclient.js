@@ -796,7 +796,7 @@ export default class BimServerClient {
 		const xhr = new XMLHttpRequest();
 
 		xhr.addEventListener("load", (e) => {
-			const result = JSON.parse(e.response);
+			const result = JSON.parse(xhr.response);
 
 			if (result.exception == null) {
 				this.call("ServiceInterface", "addExtendedDataToRevision", {
