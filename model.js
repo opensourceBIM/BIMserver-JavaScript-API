@@ -713,7 +713,7 @@ export default class Model {
 							topicId: topicId,
 							serializerOid: serializer.oid
 						});
-						this.bimServerApi.notifier.setInfo("Getting model data...", -1);
+						this.bimServerApi.notifier.setInfo(this.bimServerApi.translate("GETTING_MODEL_DATA"), -1);
 						this.bimServerApi.getJson(url, null, (data) => {
 							//console.log("query", data.objects.length);
 							data.objects.forEach((object) => {
@@ -742,7 +742,7 @@ export default class Model {
 								topicId: topicId
 							}, () => {
 								promise.fire();
-								this.bimServerApi.notifier.setSuccess("Model data successfully downloaded...");
+								this.bimServerApi.notifier.setSuccess(this.bimServerApi.translate("MODEL_DATA_DONE"));
 							});
 						});
 					} else if (state.state == "AS_ERROR") {

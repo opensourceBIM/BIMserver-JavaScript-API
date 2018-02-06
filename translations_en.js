@@ -64,5 +64,7 @@ export const translations = {
 	TRIGGERREVISIONSERVICE_DONE: "Service triggered successfully",
 	INSTALLPLUGINBUNDLEFROMFILE_DONE: "Plugin bundle successfully installed from file",
 	CHECKINFROMURL_BUSY: "Checking in from URL...",
-	ERROR_REMOTE_METHOD_CALL: "Remote error (server probably down or not reachable)"
+	ERROR_REMOTE_METHOD_CALL: "Remote error (server probably down or not reachable)",
+	GETTING_MODEL_DATA: "Getting model data...",
+	MODEL_DATA_DONE: "Model data successfully downloaded..."
 };
