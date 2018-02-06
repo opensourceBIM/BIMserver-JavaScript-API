@@ -19,7 +19,7 @@ String.prototype.firstUpper = function () {
 };
 
 export default class BimServerClient {
-	constructor(baseUrl, notifier = null) {
+	constructor(baseUrl, notifier = null, translate = null) {
 		this.interfaceMapping = {
 			"ServiceInterface": "org.bimserver.ServiceInterface",
 			"NewServicesInterface": "org.bimserver.NewServicesInterface",
@@ -32,6 +32,9 @@ export default class BimServerClient {
 			"LowLevelInterface": "org.bimserver.LowLevelInterface",
 			"NotificationRegistryInterface": "org.bimserver.NotificationRegistryInterface",
 		};
+
+		// translate function override
+		this.translateOverride = translate;
 
 		// Current BIMserver token
 		this.token = null;
@@ -138,6 +141,9 @@ export default class BimServerClient {
 	}
 
 	translate(key) {
+		if (this.translateOverride !== null) {
+			return this.translateOverride(key);
+		}
 		key = key.toUpperCase();
 		if (translations != null) {
 			const translated = translations[key];
@@ -162,7 +168,7 @@ export default class BimServerClient {
 		this.call("AuthInterface", "login", request, (data) => {
 			this.token = data;
 			if (options.done !== false) {
-				this.notifier.setInfo("Login successful", 2000);
+				this.notifier.setInfo(this.translate("LOGIN_DONE"), 2000);
 			}
 			this.resolveUser();
 			this.webSocket.connect(callback);
@@ -225,7 +231,7 @@ export default class BimServerClient {
 
 	logout(callback) {
 		this.call("AuthInterface", "logout", {}, () => {
-			this.notifier.setInfo("Logout successful");
+			this.notifier.setInfo(this.translate("LOGOUT_DONE"));
 			callback();
 		});
 	}
@@ -667,7 +673,7 @@ export default class BimServerClient {
 					if (this.lastTimeOut != null) {
 						clearTimeout(this.lastTimeOut);
 					}
-					this.notifier.setError("ERROR_REMOTE_METHOD_CALL");
+					this.notifier.setError(this.translate("ERROR_REMOTE_METHOD_CALL"));
 				}
 				if (callback != null) {
 					const result = {};

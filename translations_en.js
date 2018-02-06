@@ -58,10 +58,13 @@ export const translations = {
 	DOWNLOAD_BUSY: "Downloading model data...",
 	DOWNLOAD_DONE: "Model data downloaded",
 	LOGIN_DONE: "Login successful",
+	LOGOUT_DONE: "Logout successful",
 	UPDATEPROJECT_DONE: "Project successfully updated",
 	TRIGGERREVISIONSERVICE_BUSY: "Triggering service...",
 	TRIGGERREVISIONSERVICE_DONE: "Service triggered successfully",
 	INSTALLPLUGINBUNDLEFROMFILE_DONE: "Plugin bundle successfully installed from file",
 	CHECKINFROMURL_BUSY: "Checking in from URL...",
-	ERROR_REMOTE_METHOD_CALL: "Remote error (server probably down or not reachable)"
+	ERROR_REMOTE_METHOD_CALL: "Remote error (server probably down or not reachable)",
+	GETTING_MODEL_DATA: "Getting model data...",
+	MODEL_DATA_DONE: "Model data successfully downloaded..."
 };
