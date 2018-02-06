@@ -162,7 +162,7 @@ export default class BimServerClient {
 		this.call("AuthInterface", "login", request, (data) => {
 			this.token = data;
 			if (options.done !== false) {
-				this.notifier.setInfo("Login successful", 2000);
+				this.notifier.setInfo(this.translate("LOGIN_DONE"), 2000);
 			}
 			this.resolveUser();
 			this.webSocket.connect(callback);
@@ -225,7 +225,7 @@ export default class BimServerClient {
 
 	logout(callback) {
 		this.call("AuthInterface", "logout", {}, () => {
-			this.notifier.setInfo("Logout successful");
+			this.notifier.setInfo(this.translate("LOGOUT_DONE"));
 			callback();
 		});
 	}
@@ -667,7 +667,7 @@ export default class BimServerClient {
 					if (this.lastTimeOut != null) {
 						clearTimeout(this.lastTimeOut);
 					}
-					this.notifier.setError("ERROR_REMOTE_METHOD_CALL");
+					this.notifier.setError(this.translate("ERROR_REMOTE_METHOD_CALL"));
 				}
 				if (callback != null) {
 					const result = {};

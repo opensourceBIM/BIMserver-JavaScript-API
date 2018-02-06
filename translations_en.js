@@ -58,6 +58,7 @@ export const translations = {
 	DOWNLOAD_BUSY: "Downloading model data...",
 	DOWNLOAD_DONE: "Model data downloaded",
 	LOGIN_DONE: "Login successful",
+	LOGOUT_DONE: "Logout successful",
 	UPDATEPROJECT_DONE: "Project successfully updated",
 	TRIGGERREVISIONSERVICE_BUSY: "Triggering service...",
 	TRIGGERREVISIONSERVICE_DONE: "Service triggered successfully",
