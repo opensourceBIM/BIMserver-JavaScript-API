@@ -19,7 +19,7 @@ String.prototype.firstUpper = function () {
 };
 
 export default class BimServerClient {
-	constructor(baseUrl, notifier = null) {
+	constructor(baseUrl, notifier = null, translate = null) {
 		this.interfaceMapping = {
 			"ServiceInterface": "org.bimserver.ServiceInterface",
 			"NewServicesInterface": "org.bimserver.NewServicesInterface",
@@ -32,6 +32,9 @@ export default class BimServerClient {
 			"LowLevelInterface": "org.bimserver.LowLevelInterface",
 			"NotificationRegistryInterface": "org.bimserver.NotificationRegistryInterface",
 		};
+
+		// translate function override
+		this.translateOverride = translate;
 
 		// Current BIMserver token
 		this.token = null;
@@ -138,6 +141,9 @@ export default class BimServerClient {
 	}
 
 	translate(key) {
+		if (this.translateOverride !== null) {
+			return this.translateOverride(key);
+		}
 		key = key.toUpperCase();
 		if (translations != null) {
 			const translated = translations[key];
