@@ -237,7 +237,7 @@ export default class BimServerClient {
 	}
 
 	generateRevisionDownloadUrl(settings) {
-		return this.baseUrl + "/download?token=" + this.token + (settings.zip ? "&zip=on" : "") + "&serializerOid=" + settings.serializerOid + "&topicId=" + settings.topicId;
+		return this.baseUrl + "/download?token=" + this.token + (settings.zip ? "&zip=on" : "") + "&topicId=" + settings.topicId;
 	}
 
 	generateExtendedDataDownloadUrl(edid) {
