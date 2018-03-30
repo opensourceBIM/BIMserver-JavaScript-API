@@ -555,6 +555,12 @@ export default class BimServerClient {
 	}
 
 	multiCall(requests, callback, errorCallback, showBusy, showDone, showError) {
+		if (!this.webSocket.connected && this.token != null) {
+			this.webSocket.connect().then(() => {
+				this.multiCall(requests, callback, errorCallback, showBusy, showDone, showError);
+			});
+			return;
+		}
 		const promise = new BimServerApiPromise();
 		let request = null;
 		if (requests.length == 1) {

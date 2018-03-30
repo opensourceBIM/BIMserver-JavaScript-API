@@ -13,25 +13,40 @@ export default class BimServerApiWebSocket {
 	}
 
 	connect(callback = null) {
-		if (callback != null && typeof callback === "function") {
-			this.openCallbacks.push(callback);
-		} else {
-			console.error("Callback was not a function", callback);
+		if (this.connected) {
+			if (callback != null) {
+				callback();
+			}
+			return Promise.resolve();
 		}
-
-		const location = this.bimServerApi.baseUrl.toString().replace('http://', 'ws://').replace('https://', 'wss://') + "/stream";
-
-		try {
-			this._ws = new WebSocket(location);
-			this._ws.binaryType = "arraybuffer";
-			this._ws.onopen = this._onopen.bind(this);
-			this._ws.onmessage = this._onmessage.bind(this);
-			this._ws.onclose = this._onclose.bind(this);
-			this._ws.onerror = this._onerror.bind(this);
-		} catch (err) {
-			console.error(err);
-			this.bimServerApi.notifier.setError("WebSocket error" + (err.message !== undefined ? (": " + err.message) : ""));
-		}
+		console.info("Connecting websocket");
+		var promise = new Promise((resolve, reject) => {
+			this.openCallbacks.push(() => {
+				resolve();
+			});
+			if (callback != null) {
+				if (typeof callback === "function") {
+					this.openCallbacks.push(callback);
+				} else {
+					console.error("Callback was not a function", callback);
+				}
+			}
+			
+			const location = this.bimServerApi.baseUrl.toString().replace('http://', 'ws://').replace('https://', 'wss://') + "/stream";
+			
+			try {
+				this._ws = new WebSocket(location);
+				this._ws.binaryType = "arraybuffer";
+				this._ws.onopen = this._onopen.bind(this);
+				this._ws.onmessage = this._onmessage.bind(this);
+				this._ws.onclose = this._onclose.bind(this);
+				this._ws.onerror = this._onerror.bind(this);
+			} catch (err) {
+				console.error(err);
+				this.bimServerApi.notifier.setError("WebSocket error" + (err.message !== undefined ? (": " + err.message) : ""));
+			}
+		});
+		return promise;
 	}
 
 	_onerror(err) {
