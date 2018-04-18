@@ -733,7 +733,7 @@ export default class Model {
 								//											othis.loadedTypes[wrapper.getType()] = {};
 								//										}
 								//										othis.loadedTypes[wrapper.getType()][object._i] = wrapper;
-								if (object._s == 1) {
+								if (object._s == 1 && callback != null) {
 									callback(wrapper);
 								}
 							});
