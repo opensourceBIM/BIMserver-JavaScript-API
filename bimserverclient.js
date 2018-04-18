@@ -170,8 +170,7 @@ export default class BimServerClient {
 			if (options.done !== false) {
 				this.notifier.setInfo(this.translate("LOGIN_DONE"), 2000);
 			}
-			this.resolveUser();
-			this.webSocket.connect(callback);
+			this.resolveUser(callback);
 		}, errorCallback, options.busy === false ? false : true, options.done === false ? false : true, options.error === false ? false : true);
 	}
 
@@ -554,8 +553,8 @@ export default class BimServerClient {
 		xhr.send(JSON.stringify(data));
 	}
 
-	multiCall(requests, callback, errorCallback, showBusy, showDone, showError) {
-		if (!this.webSocket.connected && this.token != null) {
+	multiCall(requests, callback, errorCallback, showBusy, showDone, showError, connectWebSocket) {
+		if (!this.webSocket.connected && this.token != null && connectWebSocket) {
 			this.webSocket.connect().then(() => {
 				this.multiCall(requests, callback, errorCallback, showBusy, showDone, showError);
 			});
@@ -861,7 +860,7 @@ export default class BimServerClient {
 			if (errorCallback != null) {
 				errorCallback();
 			}
-		});
+		}, true, false, true, false);
 	}
 
 	/**
@@ -876,7 +875,7 @@ export default class BimServerClient {
 	 * @param {boolean} showError - Whether to show errors
 	 * 
 	 */
-	call(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true) {
+	call(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true, connectWebSocket = true) {
 		return this.multiCall([
 			[
 				interfaceName,
@@ -893,6 +892,6 @@ export default class BimServerClient {
 					errorCallback(data.exception);
 				}
 			}
-		}, errorCallback, showBusy, showDone, showError);
+		}, errorCallback, showBusy, showDone, showError, connectWebSocket);
 	}
 }
