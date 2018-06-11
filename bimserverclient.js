@@ -244,11 +244,15 @@ export default class BimServerClient {
 	}
 
 	getJsonSerializer(callback) {
-		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonSerializerPlugin", callback);
+		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonSerializerPlugin").then((serializer) => {
+			callback(serializer);
+		});
 	}
 
 	getJsonStreamingSerializer(callback) {
-		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonStreamingSerializerPlugin", callback);
+		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonStreamingSerializerPlugin").then((serializer) => {
+			callback(serializer);
+		});
 	}
 
 	getSerializerByPluginClassName(pluginClassName) {
