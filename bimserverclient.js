@@ -251,16 +251,21 @@ export default class BimServerClient {
 		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonStreamingSerializerPlugin", callback);
 	}
 
-	getSerializerByPluginClassName(pluginClassName, callback) {
-		if (this.serializersByPluginClassName[pluginClassName] == null) {
-			this.call("PluginInterface", "getSerializerByPluginClassName", {
-				pluginClassName: pluginClassName
-			}, (serializer) => {
-				this.serializersByPluginClassName[pluginClassName] = serializer;
-				callback(serializer);
-			});
+	getSerializerByPluginClassName(pluginClassName) {
+		if (this.serializersByPluginClassName[pluginClassName] != null) {
+			return this.serializersByPluginClassName[pluginClassName];
 		} else {
-			callback(this.serializersByPluginClassName[pluginClassName]);
+			var promise = new Promise((resolve, reject) => {
+				this.call("PluginInterface", "getSerializerByPluginClassName", {
+					pluginClassName: pluginClassName
+				}, (serializer) => {
+					resolve(serializer);
+				});
+			});
+
+			this.serializersByPluginClassName[pluginClassName] = promise;
+			
+			return promise;
 		}
 	}
 
@@ -750,14 +755,16 @@ export default class BimServerClient {
 		return isa;
 	}
 
-	initiateCheckin(project, deserializerOid, callback) {
-		this.call("ServiceInterface", "initiateCheckin", {
+	initiateCheckin(project, deserializerOid, callback, errorCallback) {
+		this.callWithNoIndication("ServiceInterface", "initiateCheckin", {
 			deserializerOid: deserializerOid,
 			poid: project.oid
 		}, (topicId) => {
 			if (callback != null) {
 				callback(topicId);
 			}
+		}, (error) => {
+			errorCallback(error);
 		});
 	}
 

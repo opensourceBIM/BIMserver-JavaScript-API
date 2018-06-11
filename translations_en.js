@@ -66,5 +66,6 @@ export const translations = {
 	CHECKINFROMURL_BUSY: "Checking in from URL...",
 	ERROR_REMOTE_METHOD_CALL: "Remote error (server probably down or not reachable)",
 	GETTING_MODEL_DATA: "Getting model data...",
-	MODEL_DATA_DONE: "Model data successfully downloaded..."
+	MODEL_DATA_DONE: "Model data successfully downloaded...",
+	INITIATECHECKIN_BUSY: "Initiating checkin..."
 };
