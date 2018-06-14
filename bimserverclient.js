@@ -184,6 +184,10 @@ export default class BimServerClient {
 		this.binaryDataListener[topicId] = listener;
 	}
 
+	clearBinaryDataListener(topicId) {
+		delete this.binaryDataListener[topicId];
+	}
+	
 	processNotification(message) {
 		if (message instanceof ArrayBuffer) {
 			const view = new DataView(message, 0, 8);
@@ -715,8 +719,8 @@ export default class BimServerClient {
 		return model;
 	}
 
-	callWithNoIndication(interfaceName, methodName, data, callback) {
-		return this.call(interfaceName, methodName, data, callback, null, false, false, false);
+	callWithNoIndication(interfaceName, methodName, data, callback, errorCallback) {
+		return this.call(interfaceName, methodName, data, callback, errorCallback, false, false, false);
 	}
 
 	callWithFullIndication(interfaceName, methodName, data, callback) {
