@@ -846,7 +846,6 @@ export default class BimServerClient {
 				const formData = new FormData();
 				formData.append("action", "file");
 				formData.append("token", this.token);
-				file.type = schema.contentType;
 
 				const blob = new Blob([file], {
 					type: schema.contentType
