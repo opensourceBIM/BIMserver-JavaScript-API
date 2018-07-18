@@ -522,6 +522,12 @@ export default class BimServerClient {
 		let object = {};
 		object["interface"] = interfaceName;
 		object.method = method;
+		for (var key in data) {
+			if (data[key] instanceof Set) {
+				// Convert ES6 Set to an array
+				data[key] = Array.from(data[key]);
+			}
+		}
 		object.parameters = data;
 
 		return object;
