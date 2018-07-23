@@ -96,28 +96,37 @@ export default class BimServerApiWebSocket {
 			this.listener(message.data);
 		} else {
 			const incomingMessage = JSON.parse(message.data);
-			this.bimServerApi.log("incoming", incomingMessage);
-			if (incomingMessage.welcome !== undefined) {
-				this._sendWithoutEndPoint(JSON.stringify({"token": this.bimServerApi.token}));
-			} else if (incomingMessage.endpointid !== undefined) {
-				this.endPointId = incomingMessage.endpointid;
-				this.connected = true;
-				this.openCallbacks.forEach((callback) => {
-					callback();
-				});
-				while (this.tosend.length > 0 && this._ws.readyState == 1) {
-					const messageArray = this.tosend.splice(0, 1);
-					console.log(messageArray[0]);
-					this._send(messageArray[0]);
+			if (incomingMessage.id != null) {
+				var id = incomingMessage.id;
+				if (this.bimServerApi.websocketCalls.has(id)) {
+					var fn = this.bimServerApi.websocketCalls.get(id);
+					fn(incomingMessage);
+					this.bimServerApi.websocketCalls.delete(id);
 				}
-				this.openCallbacks = [];
 			} else {
-				if (incomingMessage.request !== undefined) {
-					this.listener(incomingMessage.request);
-				} else if (incomingMessage.requests !== undefined) {
-					incomingMessage.requests.forEach((request) => {
-						this.listener(request);
+				this.bimServerApi.log("incoming", incomingMessage);
+				if (incomingMessage.welcome !== undefined) {
+					this._sendWithoutEndPoint(JSON.stringify({"token": this.bimServerApi.token}));
+				} else if (incomingMessage.endpointid !== undefined) {
+					this.endPointId = incomingMessage.endpointid;
+					this.connected = true;
+					this.openCallbacks.forEach((callback) => {
+						callback();
 					});
+					while (this.tosend.length > 0 && this._ws.readyState == 1) {
+						const messageArray = this.tosend.splice(0, 1);
+						console.log(messageArray[0]);
+						this._send(messageArray[0]);
+					}
+					this.openCallbacks = [];
+				} else {
+					if (incomingMessage.request !== undefined) {
+						this.listener(incomingMessage.request);
+					} else if (incomingMessage.requests !== undefined) {
+						incomingMessage.requests.forEach((request) => {
+							this.listener(request);
+						});
+					}
 				}
 			}
 		}

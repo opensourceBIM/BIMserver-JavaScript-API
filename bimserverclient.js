@@ -62,6 +62,9 @@ export default class BimServerClient {
 				clear: function () {}
 			};
 		}
+		
+		// ID -> Resolve method
+		this.websocketCalls = new Map(); 
 
 		// The websocket client
 		this.webSocket = new BimServerApiWebSocket(baseUrl, this);
@@ -70,6 +73,9 @@ export default class BimServerClient {
 		// Cached user object
 		this.user = null;
 
+		// Keeps track of the unique ID's required to handle websocket calls that return something
+		this.idCounter = 0;
+		
 		this.listeners = {};
 
 		//    	this.autoLoginTried = false;
@@ -881,6 +887,28 @@ export default class BimServerClient {
 				errorCallback();
 			}
 		}, true, false, true, false);
+	}
+	
+	callWithWebsocket(interfaceName, methodName, data) {
+		var promise = new Promise((resolve, reject) => {
+			var id = this.idCounter++;
+			this.websocketCalls.set(id, (response) => {
+				resolve(response.response.result);
+			});
+			var request = {
+				id: id,
+				request: {
+					interface: interfaceName,
+					method: methodName,
+					parameters: data
+				}
+			};
+			if (this.token != null) {
+				request.token = this.token;
+			}
+			this.webSocket.send(request);
+		});
+		return promise;
 	}
 
 	/**
