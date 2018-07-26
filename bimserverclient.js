@@ -196,6 +196,9 @@ export default class BimServerClient {
 	
 	processNotification(message) {
 		if (message instanceof ArrayBuffer) {
+			if (message == null || message.byteLength == 0) {
+				return;
+			}
 			const view = new DataView(message, 0, 8);
 			const topicId = view.getUint32(0, true) + 0x100000000 * view.getUint32(4, true); // TopicId's are of type long (64 bit)
 			const listener = this.binaryDataListener[topicId];
