@@ -97,21 +97,27 @@ export default class BimServerClient {
 	}
 
 	init(callback) {
-		this.call("AdminInterface", "getServerInfo", {}, (serverInfo) => {
-			this.version = serverInfo.version;
-			//const versionString = this.version.major + "." + this.version.minor + "." + this.version.revision;
+		var promise = new Promise((resolve, reject) => {
+			this.call("AdminInterface", "getServerInfo", {}, (serverInfo) => {
+				this.version = serverInfo.version;
+				//const versionString = this.version.major + "." + this.version.minor + "." + this.version.revision;
+				
+				this.schemas.geometry = geometry.classes;
+				this.addSubtypesToSchema(this.schemas.geometry);
+				
+				this.schemas.ifc2x3tc1 = ifc2x3tc1.classes;
+				this.addSubtypesToSchema(this.schemas.ifc2x3tc1);
+				
+				this.schemas.ifc4 = ifc4.classes;
+				this.addSubtypesToSchema(this.schemas.ifc4);
 
-			this.schemas.geometry = geometry.classes;
-			this.addSubtypesToSchema(this.schemas.geometry);
-
-			this.schemas.ifc2x3tc1 = ifc2x3tc1.classes;
-			this.addSubtypesToSchema(this.schemas.ifc2x3tc1);
-
-			this.schemas.ifc4 = ifc4.classes;
-			this.addSubtypesToSchema(this.schemas.ifc4);
-
-			callback(this, serverInfo);
+				if (callback != null) {
+					callback(this, serverInfo);
+				}
+				resolve(serverInfo);
+			});
 		});
+		return promise;
 	}
 
 	addSubtypesToSchema(classes) {
