@@ -67,5 +67,6 @@ export const translations = {
 	ERROR_REMOTE_METHOD_CALL: "Remote error (server probably down or not reachable)",
 	GETTING_MODEL_DATA: "Getting model data...",
 	MODEL_DATA_DONE: "Model data successfully downloaded...",
-	INITIATECHECKIN_BUSY: "Initiating checkin..."
+	INITIATECHECKIN_BUSY: "Initiating checkin...",
+	GETTILECOUNTS_BUSY: "Counting tiles..."
 };
