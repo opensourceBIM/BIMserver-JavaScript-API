@@ -69,5 +69,6 @@ export const translations = {
 	MODEL_DATA_DONE: "Model data successfully downloaded...",
 	INITIATECHECKIN_BUSY: "Initiating checkin...",
 	GETTILECOUNTS_BUSY: "Counting tiles...",
-	LISTBOUNDINGBOXES_BUSY: "Loading bounding boxes..."
+	LISTBOUNDINGBOXES_BUSY: "Loading bounding boxes...",
+	GETALLPROJECTS_BUSY: "Loading all projects..."
 };
