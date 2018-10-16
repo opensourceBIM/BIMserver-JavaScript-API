@@ -670,6 +670,7 @@ export default class BimServerClient {
 							if (showedBusy) {
 								this.notifier.resetStatus();
 							}
+							errorsToReport.push(data.response.exception);
 						}
 					} else {
 						if (showDone) {
@@ -691,8 +692,12 @@ export default class BimServerClient {
 						}
 					});
 				}
-				if (errorsToReport.length > 0) {
-					errorCallback(errorsToReport);
+				if (errorsToReport.length > 0 && errorCallback) {
+					if (requests.length == 1) {
+						errorCallback(errorsToReport[0]); // with one request (and one error) -> call with an object
+					} else {
+						errorCallback(errorsToReport); // multiple requests, sends an array of errors
+					}
 				} else {
 					if (requests.length == 1) {
 						callback(data.response);
