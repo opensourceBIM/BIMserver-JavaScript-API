@@ -2,3 +2,9 @@
 /target/
 /node_modules/
 /build/
+.idea/
+/dist/
+/package-lock.json
+/bimserverapi.iml
+/coverage/
+/.nyc_output/

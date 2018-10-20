@@ -1,0 +1,8 @@
+{
+  "watch": [
+    "."
+  ],
+  "ext": "ts",
+  "ignore": ["**/*.spec.ts"],
+  "exec": "mocha --inspect=0.0.0.0 -r chai/register-expect --require ts-node/register --require tsconfig-paths/register test/**.ts"
+}

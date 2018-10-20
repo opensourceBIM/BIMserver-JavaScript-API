@@ -1,0 +1,31 @@
+language: node_js
+node_js:
+  - "10"
+
+services:
+  - docker
+
+before_script:
+  - docker pull muenchhausen/docker-bimserver
+  - docker run --name docker-bimserver --rm -d -p 8888:8080 muenchhausen/docker-bimserver
+  - docker ps -a
+  # wait until container is running
+  - |
+    echo "healthcheck start"
+    until [ $(docker ps --format "table {{.Names}}" -f health=healthy | grep docker-bimserver) ]
+    do
+      echo "healthcheck retry"
+      sleep 5
+    done
+    echo "healthcheck success"
+
+  # set sample user and credentials
+  - |
+    curl 'http://localhost:8888/json' --retry 3 --retry-delay 5 -H 'Origin: http://localhost:8888' \
+      -H 'Accept: application/json, text/javascript, */*; q=0.01' -H 'Referer: http://localhost:8888/' \
+      -H 'X-Requested-With: XMLHttpRequest' -H 'Connection: keep-alive' \
+      --data '{"request":{"interface":"AdminInterface","method":"setup","parameters":{"siteAddress":"http://localhost:8888","serverName":"","serverDescription":"","serverIcon":"/img/bimserver.png","adminName":"Administrator","adminUsername":"derk@muenchhausen.de","adminPassword":"admin"}}}' \
+      --compressed
+
+script:
+  - npm run test

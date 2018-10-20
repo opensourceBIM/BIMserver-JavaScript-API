@@ -3,20 +3,27 @@
   "groupId": "org.opensourcebim",
   "artifactId": "javascriptapi",
   "organization": "OpenSource BIM",
-  "version": "%VERSION%",
+  "version": "1.0.0",
   "description": "A JavaScript API for the OpenSource BIMserver",
   "author": {
     "name": "Ruben de Laat",
     "email": "ruben@logic-labs.nl"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "tsc",
+    "test:debug": "nodemon --config nodemon-test.json",
+    "test": "nyc mocha test/unit/*.spec.ts test/int/*.spec.ts",
+    "test:unit": "nyc mocha test/unit/*.spec.ts",
+    "test:int": "nyc mocha test/int/*.spec.ts",
+    "coverage": "nyc report",
+    "start:debug": "nodemon --config nodemon-debug.json"
   },
   "files": [
     "*.js"
   ],
-  "main": "build/bimserverapi.js",
-  "module": "bimserverclient.js",
+  "main": "dist/bimserverapi.js",
+  "types": "dist/bimserverapi.d.ts",
+  "module": "bimserverclient.ts",
   "repository": {
     "type": "git",
     "url": "https://github.com/opensourceBIM/BIMserver-JavaScript-API"
@@ -30,24 +37,55 @@
     "websocket": false
   },
   "dependencies": {
-    "websocket": "*",
     "xhr2": "*"
   },
   "devDependencies": {
+    "@types/chai": "^4.1.6",
+    "@types/chai-as-promised": "^7.1.0",
+    "@types/mocha": "^5.2.5",
+    "@types/ws": "^6.0.1",
     "babel-core": "^6.26.0",
     "babel-plugin-external-helpers": "^6.22.0",
     "babel-preset-env": "^1.6.1",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "grunt": "*",
     "grunt-contrib-concat": "*",
     "grunt-contrib-jshint": "*",
     "grunt-contrib-nodeunit": "*",
     "grunt-contrib-uglify": "*",
     "grunt-zip": "*",
+    "mocha": "^5.2.0",
+    "nodemon": "^1.18.4",
     "rollup": "^0.50.0",
     "rollup-plugin-babel": "^3.0.2",
     "rollup-plugin-commonjs": "^8.2.6",
     "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-uglify": "^2.0.1"
+    "rollup-plugin-uglify": "^2.0.1",
+    "ts-node": "^7.0.1",
+    "tsconfig-paths": "^3.6.0",
+    "typescript": "^3.1.3",
+    "ws": "^6.1.0",
+    "nyc": "^13.0.1",
+    "source-map-support": "^0.5.5"
+  },
+  "nyc": {
+    "extension": [
+      ".ts"
+    ],
+    "include": [
+      "*.ts"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "all": true,
+    "check-coverage": true,
+    "statements": 0,
+    "functions": 0,
+    "branches": 0,
+    "lines": 0
   },
   "preferGlobal": true,
   "private": false,
