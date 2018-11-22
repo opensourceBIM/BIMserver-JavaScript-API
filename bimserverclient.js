@@ -313,9 +313,9 @@ export default class BimServerClient {
 			this.listeners[interfaceName] = {};
 		}
 		if (this.listeners[interfaceName][methodName] == null) {
-			this.listeners[interfaceName][methodName] = [];
+			this.listeners[interfaceName][methodName] = new Set();
 		}
-		this.listeners[interfaceName][methodName].push(callback);
+		this.listeners[interfaceName][methodName].add(callback);
 		if (registerCallback != null) {
 			registerCallback();
 		}
