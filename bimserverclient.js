@@ -464,6 +464,8 @@ export default class BimServerClient {
 				if (callback != null) {
 					callback();
 				}
+			}, () => {
+				// Discard
 			});
 		}
 	}
@@ -477,6 +479,8 @@ export default class BimServerClient {
 			if (callback != null) {
 				callback();
 			}
+		}, () => {
+			// Discard
 		});
 	}
 
