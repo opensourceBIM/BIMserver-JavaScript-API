@@ -70,5 +70,7 @@ export const translations = {
 	INITIATECHECKIN_BUSY: "Initiating checkin...",
 	GETTILECOUNTS_BUSY: "Counting tiles...",
 	LISTBOUNDINGBOXES_BUSY: "Loading bounding boxes...",
-	GETALLPROJECTS_BUSY: "Loading all projects..."
+	GETALLPROJECTS_BUSY: "Loading all projects...",
+	GETSUGGESTEDDESERIALIZERFOREXTENSION_BUSY: "Loading deserializer...",
+	GETDENSITYTHRESHOLD_BUSY: "Loading density information..."
 };
