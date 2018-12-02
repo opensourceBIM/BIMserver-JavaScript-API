@@ -332,9 +332,9 @@ class BimServerClient {
 			this.listeners[interfaceName] = {};
 		}
 		if (this.listeners[interfaceName][methodName] == null) {
-			this.listeners[interfaceName][methodName] = [];
+			this.listeners[interfaceName][methodName] = new Set();
 		}
-		this.listeners[interfaceName][methodName].push(callback);
+		this.listeners[interfaceName][methodName].add(callback);
 		if (registerCallback != null) {
 			registerCallback();
 		}
@@ -483,6 +483,8 @@ class BimServerClient {
 				if (callback != null) {
 					callback();
 				}
+			}, () => {
+				// Discard
 			});
 		}
 	}
@@ -496,6 +498,8 @@ class BimServerClient {
 			if (callback != null) {
 				callback();
 			}
+		}, () => {
+			// Discard
 		});
 	}
 
@@ -886,6 +890,7 @@ class BimServerClient {
 		}, false);
 		xhr.open("POST", this.baseUrl + "/upload");
 		/*
+		// Dead Code??
 		if (typeof data == "File") {
 			reader.onload = () => {
 				const formData = new FormData();

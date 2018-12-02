@@ -703,7 +703,7 @@ class Model {
 					if (typeof subQuery.type === "object") {
 						fullTypesLoading[subQuery.type.name] = true;
 						this.loadedTypes[subQuery.type.name] = {};
-						if (subQuery.type.includeAllSubtypes) {
+						if (subQuery.type.includeAllSubTypes) {
 							const schema = this.bimServerApi.schemas[this.schema];
 							this.bimServerApi.getAllSubTypes(schema, subQuery.type.name, (subTypeName) => {
 								fullTypesLoading[subTypeName] = true;
@@ -713,7 +713,7 @@ class Model {
 					} else {
 						fullTypesLoading[subQuery.type] = true;
 						this.loadedTypes[subQuery.type] = {};
-						if (subQuery.includeAllSubtypes) {
+						if (subQuery.includeAllSubTypes) {
 							const schema = this.bimServerApi.schemas[this.schema];
 							this.bimServerApi.getAllSubTypes(schema, subQuery.type, (subTypeName) => {
 								fullTypesLoading[subTypeName] = true;
