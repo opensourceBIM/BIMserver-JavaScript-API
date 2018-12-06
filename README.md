@@ -1,4 +1,4 @@
-# BIMserver-JavaScript-API
+# BIMserver-JavaScript-API [![Build Status](https://travis-ci.org/muenchhausen/BIMserver-JavaScript-API.svg?branch=master)](https://travis-ci.org/muenchhausen/BIMserver-JavaScript-API)
 
 A JavaScript API for the OpenSource BIMserver.
 

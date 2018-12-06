@@ -73,7 +73,7 @@ api.init((client, version) => {
 </pre>
 
 <script type="module">
-import BimServerClient from './bimserverclient.js';
+import Bimserverclient from './bimserverclient.js';
 var api = new BimServerClient("../..");
 api.init((client, version) => {
 	document.getElementById("version").innerHTML = JSON.stringify(version.version, 0, 2);
