@@ -72,5 +72,6 @@ export const translations = {
 	LISTBOUNDINGBOXES_BUSY: "Loading bounding boxes...",
 	GETALLPROJECTS_BUSY: "Loading all projects...",
 	GETSUGGESTEDDESERIALIZERFOREXTENSION_BUSY: "Loading deserializer...",
-	GETDENSITYTHRESHOLD_BUSY: "Loading density information..."
+	GETDENSITYTHRESHOLD_BUSY: "Loading density information...",
+	LISTPLUGINSINBUNDLE_DONE: "Plugins in bundle loaded successfully"
 };
