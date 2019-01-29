@@ -62,9 +62,9 @@ export default class BimServerClient {
 				clear: function () {}
 			};
 		}
-		
+
 		// ID -> Resolve method
-		this.websocketCalls = new Map(); 
+		this.websocketCalls = new Map();
 
 		// The websocket client
 		this.webSocket = new BimServerApiWebSocket(baseUrl, this);
@@ -75,7 +75,7 @@ export default class BimServerClient {
 
 		// Keeps track of the unique ID's required to handle websocket calls that return something
 		this.idCounter = 0;
-		
+
 		this.listeners = {};
 
 		//    	this.autoLoginTried = false;
@@ -101,13 +101,13 @@ export default class BimServerClient {
 			this.call("AdminInterface", "getServerInfo", {}, (serverInfo) => {
 				this.version = serverInfo.version;
 				//const versionString = this.version.major + "." + this.version.minor + "." + this.version.revision;
-				
+
 				this.schemas.geometry = geometry.classes;
 				this.addSubtypesToSchema(this.schemas.geometry);
-				
+
 				this.schemas.ifc2x3tc1 = ifc2x3tc1.classes;
 				this.addSubtypesToSchema(this.schemas.ifc2x3tc1);
-				
+
 				this.schemas.ifc4 = ifc4.classes;
 				this.addSubtypesToSchema(this.schemas.ifc4);
 
@@ -115,7 +115,7 @@ export default class BimServerClient {
 					callback(this, serverInfo);
 				}
 				resolve(serverInfo);
-			});
+			}, (error) => { reject(error); });
 		});
 		return promise;
 	}
@@ -199,7 +199,7 @@ export default class BimServerClient {
 	clearBinaryDataListener(topicId) {
 		delete this.binaryDataListener[topicId];
 	}
-	
+
 	processNotification(message) {
 		if (message instanceof ArrayBuffer) {
 			if (message == null || message.byteLength == 0) {
@@ -287,7 +287,7 @@ export default class BimServerClient {
 			});
 
 			this.serializersByPluginClassName[pluginClassName] = promise;
-			
+
 			return promise;
 		}
 	}
@@ -718,11 +718,11 @@ export default class BimServerClient {
 					}
 					this.notifier.setError(this.translate("ERROR_REMOTE_METHOD_CALL"));
 				}
-				if (callback != null) {
+				if (errorCallback != null) {
 					const result = {};
 					result.error = textStatus;
 					result.ok = false;
-					callback(result);
+					errorCallback(result);
 				}
 				promise.fire();
 			});
@@ -901,7 +901,7 @@ export default class BimServerClient {
 			}
 		}, true, false, true, false);
 	}
-	
+
 	callWithWebsocket(interfaceName, methodName, data) {
 		var promise = new Promise((resolve, reject) => {
 			var id = this.idCounter++;
@@ -934,7 +934,7 @@ export default class BimServerClient {
 	 * @param {boolean} showBusy - Whether to show busy indication
 	 * @param {boolean} showDone - Whether to show done indication
 	 * @param {boolean} showError - Whether to show errors
-	 * 
+	 *
 	 */
 	call(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true, connectWebSocket = true) {
 		return this.multiCall([
