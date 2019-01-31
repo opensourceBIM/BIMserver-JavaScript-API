@@ -1,4 +1,4 @@
-export default class BimServerApiWebSocket {
+export class BimServerApiWebSocket {
 	constructor(baseUrl, bimServerApi) {
 		this.connected = false;
 		this.openCallbacks = [];

@@ -1,16 +1,16 @@
-import BimServerApiPromise from './bimserverapipromise.js';
-import BimServerApiWebSocket from './bimserverapiwebsocket.js';
+import {BimServerApiPromise} from './bimserverapipromise.js';
+import {BimServerApiWebSocket} from './bimserverapiwebsocket.js';
 import {geometry} from './geometry.js';
 import {ifc2x3tc1} from './ifc2x3tc1.js';
 import {ifc4} from './ifc4.js';
-import Model from './model.js';
+import {Model} from './model.js';
 import {translations} from './translations_en.js';
 
-export { default as BimServerApiPromise } from './bimserverapipromise.js';
-export { default as BimServerApiWebSocket } from './bimserverapiwebsocket.js';
-export { default as Model } from './model.js';
+//export { default as BimServerApiPromise } from './bimserverapipromise.js';
+//export { default as BimServerApiWebSocket } from './bimserverapiwebsocket.js';
+//export { default as Model } from './model.js';
 
-//import XMLHttpRequest from 'xhr2';
+//import {XMLHttpRequest from 'xhr2';
 
 // Where does this come frome? The API crashes on the absence of this
 // member function?
@@ -18,7 +18,7 @@ String.prototype.firstUpper = function () {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-export default class BimServerClient {
+export class BimServerClient {
 	constructor(baseUrl, notifier = null, translate = null) {
 		this.interfaceMapping = {
 			"ServiceInterface": "org.bimserver.ServiceInterface",

@@ -1,4 +1,4 @@
-export default class BimServerApiPromise {
+export class BimServerApiPromise {
 	constructor(counter = null) {
 		this.isDone = false;
 		this.chains = [];
