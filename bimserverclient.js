@@ -274,6 +274,12 @@ export class BimServerClient {
 		});
 	}
 
+	getMinimalJsonStreamingSerializer(callback) {
+		this.getSerializerByPluginClassName("org.bimserver.serializers.MinimalJsonStreamingSerializerPlugin").then((serializer) => {
+			callback(serializer);
+		});
+	}
+
 	getSerializerByPluginClassName(pluginClassName) {
 		if (this.serializersByPluginClassName[pluginClassName] != null) {
 			return this.serializersByPluginClassName[pluginClassName];
