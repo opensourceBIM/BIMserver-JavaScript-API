@@ -74,5 +74,6 @@ export const translations = {
 	GETSUGGESTEDDESERIALIZERFOREXTENSION_BUSY: "Loading deserializer...",
 	GETDENSITYTHRESHOLD_BUSY: "Loading density information...",
 	LISTPLUGINSINBUNDLE_DONE: "Plugins in bundle loaded successfully",
-	CHECKINFROMURLSYNC_BUSY: "Checking in from URL..."
+	CHECKINFROMURLSYNC_BUSY: "Checking in from URL...",
+	SETPLUGINSYSTEMSETTINGS_DONE: "Plugin system settings successfully updated"
 };
