@@ -873,6 +873,7 @@ export class BimServerClient {
 		}, false);
 		xhr.open("POST", this.baseUrl + "/upload");
 		if (typeof data == "File") {
+			var file = data;
 			reader.onload = () => {
 				const formData = new FormData();
 				formData.append("action", "file");
