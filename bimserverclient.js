@@ -211,7 +211,7 @@ export class BimServerClient {
 			if (listener != null) {
 				listener(message);
 			} else {
-				console.error("No listener for topicId", topicId);
+				console.error("No listener for topicId", topicId, message);
 			}
 		} else {
 			const intf = message["interface"];
