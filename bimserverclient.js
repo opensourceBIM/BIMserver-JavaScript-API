@@ -1,16 +1,16 @@
-import BimServerApiPromise from './bimserverapipromise.js';
-import BimServerApiWebSocket from './bimserverapiwebsocket.js';
+import {BimServerApiPromise} from './bimserverapipromise.js';
+import {BimServerApiWebSocket} from './bimserverapiwebsocket.js';
 import {geometry} from './geometry.js';
 import {ifc2x3tc1} from './ifc2x3tc1.js';
 import {ifc4} from './ifc4.js';
-import Model from './model.js';
+import {Model} from './model.js';
 import {translations} from './translations_en.js';
 
-export { default as BimServerApiPromise } from './bimserverapipromise.js';
-export { default as BimServerApiWebSocket } from './bimserverapiwebsocket.js';
-export { default as Model } from './model.js';
+//export { default as BimServerApiPromise } from './bimserverapipromise.js';
+//export { default as BimServerApiWebSocket } from './bimserverapiwebsocket.js';
+//export { default as Model } from './model.js';
 
-//import XMLHttpRequest from 'xhr2';
+//import {XMLHttpRequest from 'xhr2';
 
 // Where does this come frome? The API crashes on the absence of this
 // member function?
@@ -18,7 +18,7 @@ String.prototype.firstUpper = function () {
 	return this.charAt(0).toUpperCase() + this.slice(1);
 };
 
-export default class BimServerClient {
+export class BimServerClient {
 	constructor(baseUrl, notifier = null, translate = null) {
 		this.interfaceMapping = {
 			"ServiceInterface": "org.bimserver.ServiceInterface",
@@ -62,9 +62,9 @@ export default class BimServerClient {
 				clear: function () {}
 			};
 		}
-		
+
 		// ID -> Resolve method
-		this.websocketCalls = new Map(); 
+		this.websocketCalls = new Map();
 
 		// The websocket client
 		this.webSocket = new BimServerApiWebSocket(baseUrl, this);
@@ -75,7 +75,7 @@ export default class BimServerClient {
 
 		// Keeps track of the unique ID's required to handle websocket calls that return something
 		this.idCounter = 0;
-		
+
 		this.listeners = {};
 
 		//    	this.autoLoginTried = false;
@@ -101,13 +101,13 @@ export default class BimServerClient {
 			this.call("AdminInterface", "getServerInfo", {}, (serverInfo) => {
 				this.version = serverInfo.version;
 				//const versionString = this.version.major + "." + this.version.minor + "." + this.version.revision;
-				
+
 				this.schemas.geometry = geometry.classes;
 				this.addSubtypesToSchema(this.schemas.geometry);
-				
+
 				this.schemas.ifc2x3tc1 = ifc2x3tc1.classes;
 				this.addSubtypesToSchema(this.schemas.ifc2x3tc1);
-				
+
 				this.schemas.ifc4 = ifc4.classes;
 				this.addSubtypesToSchema(this.schemas.ifc4);
 
@@ -115,7 +115,7 @@ export default class BimServerClient {
 					callback(this, serverInfo);
 				}
 				resolve(serverInfo);
-			});
+			}, (error) => { reject(error); });
 		});
 		return promise;
 	}
@@ -199,7 +199,7 @@ export default class BimServerClient {
 	clearBinaryDataListener(topicId) {
 		delete this.binaryDataListener[topicId];
 	}
-	
+
 	processNotification(message) {
 		if (message instanceof ArrayBuffer) {
 			if (message == null || message.byteLength == 0) {
@@ -211,7 +211,7 @@ export default class BimServerClient {
 			if (listener != null) {
 				listener(message);
 			} else {
-				console.error("No listener for topicId", topicId);
+				console.error("No listener for topicId", topicId, message);
 			}
 		} else {
 			const intf = message["interface"];
@@ -274,6 +274,12 @@ export default class BimServerClient {
 		});
 	}
 
+	getMinimalJsonStreamingSerializer(callback) {
+		this.getSerializerByPluginClassName("org.bimserver.serializers.MinimalJsonStreamingSerializerPlugin").then((serializer) => {
+			callback(serializer);
+		});
+	}
+
 	getSerializerByPluginClassName(pluginClassName) {
 		if (this.serializersByPluginClassName[pluginClassName] != null) {
 			return this.serializersByPluginClassName[pluginClassName];
@@ -287,7 +293,7 @@ export default class BimServerClient {
 			});
 
 			this.serializersByPluginClassName[pluginClassName] = promise;
-			
+
 			return promise;
 		}
 	}
@@ -313,9 +319,9 @@ export default class BimServerClient {
 			this.listeners[interfaceName] = {};
 		}
 		if (this.listeners[interfaceName][methodName] == null) {
-			this.listeners[interfaceName][methodName] = [];
+			this.listeners[interfaceName][methodName] = new Set();
 		}
-		this.listeners[interfaceName][methodName].push(callback);
+		this.listeners[interfaceName][methodName].add(callback);
 		if (registerCallback != null) {
 			registerCallback();
 		}
@@ -464,6 +470,8 @@ export default class BimServerClient {
 				if (callback != null) {
 					callback();
 				}
+			}, () => {
+				// Discard
 			});
 		}
 	}
@@ -477,6 +485,8 @@ export default class BimServerClient {
 			if (callback != null) {
 				callback();
 			}
+		}, () => {
+			// Discard
 		});
 	}
 
@@ -719,11 +729,11 @@ export default class BimServerClient {
 					}
 					this.notifier.setError(this.translate("ERROR_REMOTE_METHOD_CALL"));
 				}
-				if (callback != null) {
+				if (errorCallback != null) {
 					const result = {};
 					result.error = textStatus;
 					result.ok = false;
-					callback(result);
+					errorCallback(result);
 				}
 				promise.fire();
 			});
@@ -868,6 +878,7 @@ export default class BimServerClient {
 		}, false);
 		xhr.open("POST", this.baseUrl + "/upload");
 		if (typeof data == "File") {
+			var file = data;
 			reader.onload = () => {
 				const formData = new FormData();
 				formData.append("action", "file");
@@ -902,7 +913,7 @@ export default class BimServerClient {
 			}
 		}, true, false, true, false);
 	}
-	
+
 	callWithWebsocket(interfaceName, methodName, data) {
 		var promise = new Promise((resolve, reject) => {
 			var id = this.idCounter++;
@@ -935,7 +946,7 @@ export default class BimServerClient {
 	 * @param {boolean} showBusy - Whether to show busy indication
 	 * @param {boolean} showDone - Whether to show done indication
 	 * @param {boolean} showError - Whether to show errors
-	 * 
+	 *
 	 */
 	call(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true, connectWebSocket = true) {
 		return this.multiCall([

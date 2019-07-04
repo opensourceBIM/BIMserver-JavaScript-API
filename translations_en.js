@@ -70,5 +70,11 @@ export const translations = {
 	INITIATECHECKIN_BUSY: "Initiating checkin...",
 	GETTILECOUNTS_BUSY: "Counting tiles...",
 	LISTBOUNDINGBOXES_BUSY: "Loading bounding boxes...",
-	GETALLPROJECTS_BUSY: "Loading all projects..."
+	GETALLPROJECTS_BUSY: "Loading all projects...",
+	GETSUGGESTEDDESERIALIZERFOREXTENSION_BUSY: "Loading deserializer...",
+	GETDENSITYTHRESHOLD_BUSY: "Loading density information...",
+	LISTPLUGINSINBUNDLE_DONE: "Plugins in bundle loaded successfully",
+	CHECKINFROMURLSYNC_BUSY: "Checking in from URL...",
+	SETPLUGINSYSTEMSETTINGS_DONE: "Plugin system settings successfully updated",
+	INSTALLPLUGINBUNDLEFROMFILE_BUSY: "Installing plugin bundle from file..."
 };
