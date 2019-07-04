@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.opensourcebim</groupId>
 	<artifactId>bimserverapi</artifactId>
-	<version>0.0.141-SNAPSHOT</version>
+	<version>0.0.148-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -105,6 +105,12 @@
 								<goals>
 									<goal>sign</goal>
 								</goals>
+								<configuration>
+									<gpgArguments>
+										<arg>--pinentry-mode</arg>
+										<arg>loopback</arg>
+									</gpgArguments>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
@@ -112,6 +118,13 @@
 			</build>
 		</profile>
 	</profiles>
+	<dependencies>
+		<dependency>
+			<groupId>org.opensourcebim</groupId>
+			<artifactId>pluginbase</artifactId>
+			<version>1.5.106</version>
+		</dependency>
+	</dependencies>
 	<distributionManagement>
 		<snapshotRepository>
 			<id>ossrh</id>
@@ -126,7 +139,7 @@
 		<url>https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</url>
 		<connection>scm:git:https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</connection>
 		<developerConnection>scm:git:https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</developerConnection>
-		<tag>bimserverapi-0.0.139</tag>
+		<tag>bimserverapi-0.0.140</tag>
 	</scm>
 	<organization>
 		<name>OpenSource BIM</name>

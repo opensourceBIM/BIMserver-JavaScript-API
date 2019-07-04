@@ -62,6 +62,9 @@ export default class BimServerClient {
 				clear: function () {}
 			};
 		}
+		
+		// ID -> Resolve method
+		this.websocketCalls = new Map(); 
 
 		// The websocket client
 		this.webSocket = new BimServerApiWebSocket(baseUrl, this);
@@ -70,6 +73,9 @@ export default class BimServerClient {
 		// Cached user object
 		this.user = null;
 
+		// Keeps track of the unique ID's required to handle websocket calls that return something
+		this.idCounter = 0;
+		
 		this.listeners = {};
 
 		//    	this.autoLoginTried = false;
@@ -91,21 +97,27 @@ export default class BimServerClient {
 	}
 
 	init(callback) {
-		this.call("AdminInterface", "getServerInfo", {}, (serverInfo) => {
-			this.version = serverInfo.version;
-			//const versionString = this.version.major + "." + this.version.minor + "." + this.version.revision;
+		var promise = new Promise((resolve, reject) => {
+			this.call("AdminInterface", "getServerInfo", {}, (serverInfo) => {
+				this.version = serverInfo.version;
+				//const versionString = this.version.major + "." + this.version.minor + "." + this.version.revision;
+				
+				this.schemas.geometry = geometry.classes;
+				this.addSubtypesToSchema(this.schemas.geometry);
+				
+				this.schemas.ifc2x3tc1 = ifc2x3tc1.classes;
+				this.addSubtypesToSchema(this.schemas.ifc2x3tc1);
+				
+				this.schemas.ifc4 = ifc4.classes;
+				this.addSubtypesToSchema(this.schemas.ifc4);
 
-			this.schemas.geometry = geometry.classes;
-			this.addSubtypesToSchema(this.schemas.geometry);
-
-			this.schemas.ifc2x3tc1 = ifc2x3tc1.classes;
-			this.addSubtypesToSchema(this.schemas.ifc2x3tc1);
-
-			this.schemas.ifc4 = ifc4.classes;
-			this.addSubtypesToSchema(this.schemas.ifc4);
-
-			callback(this, serverInfo);
+				if (callback != null) {
+					callback(this, serverInfo);
+				}
+				resolve(serverInfo);
+			});
 		});
+		return promise;
 	}
 
 	addSubtypesToSchema(classes) {
@@ -170,8 +182,7 @@ export default class BimServerClient {
 			if (options.done !== false) {
 				this.notifier.setInfo(this.translate("LOGIN_DONE"), 2000);
 			}
-			this.resolveUser();
-			this.webSocket.connect(callback);
+			this.resolveUser(callback);
 		}, errorCallback, options.busy === false ? false : true, options.done === false ? false : true, options.error === false ? false : true);
 	}
 
@@ -185,8 +196,15 @@ export default class BimServerClient {
 		this.binaryDataListener[topicId] = listener;
 	}
 
+	clearBinaryDataListener(topicId) {
+		delete this.binaryDataListener[topicId];
+	}
+	
 	processNotification(message) {
 		if (message instanceof ArrayBuffer) {
+			if (message == null || message.byteLength == 0) {
+				return;
+			}
 			const view = new DataView(message, 0, 8);
 			const topicId = view.getUint32(0, true) + 0x100000000 * view.getUint32(4, true); // TopicId's are of type long (64 bit)
 			const listener = this.binaryDataListener[topicId];
@@ -245,23 +263,32 @@ export default class BimServerClient {
 	}
 
 	getJsonSerializer(callback) {
-		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonSerializerPlugin", callback);
+		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonSerializerPlugin").then((serializer) => {
+			callback(serializer);
+		});
 	}
 
 	getJsonStreamingSerializer(callback) {
-		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonStreamingSerializerPlugin", callback);
+		this.getSerializerByPluginClassName("org.bimserver.serializers.JsonStreamingSerializerPlugin").then((serializer) => {
+			callback(serializer);
+		});
 	}
 
-	getSerializerByPluginClassName(pluginClassName, callback) {
-		if (this.serializersByPluginClassName[pluginClassName] == null) {
-			this.call("PluginInterface", "getSerializerByPluginClassName", {
-				pluginClassName: pluginClassName
-			}, (serializer) => {
-				this.serializersByPluginClassName[pluginClassName] = serializer;
-				callback(serializer);
-			});
+	getSerializerByPluginClassName(pluginClassName) {
+		if (this.serializersByPluginClassName[pluginClassName] != null) {
+			return this.serializersByPluginClassName[pluginClassName];
 		} else {
-			callback(this.serializersByPluginClassName[pluginClassName]);
+			var promise = new Promise((resolve, reject) => {
+				this.call("PluginInterface", "getSerializerByPluginClassName", {
+					pluginClassName: pluginClassName
+				}, (serializer) => {
+					resolve(serializer);
+				});
+			});
+
+			this.serializersByPluginClassName[pluginClassName] = promise;
+			
+			return promise;
 		}
 	}
 
@@ -510,6 +537,12 @@ export default class BimServerClient {
 		let object = {};
 		object["interface"] = interfaceName;
 		object.method = method;
+		for (var key in data) {
+			if (data[key] instanceof Set) {
+				// Convert ES6 Set to an array
+				data[key] = Array.from(data[key]);
+			}
+		}
 		object.parameters = data;
 
 		return object;
@@ -554,7 +587,13 @@ export default class BimServerClient {
 		xhr.send(JSON.stringify(data));
 	}
 
-	multiCall(requests, callback, errorCallback, showBusy, showDone, showError) {
+	multiCall(requests, callback, errorCallback, showBusy, showDone, showError, connectWebSocket) {
+		if (!this.webSocket.connected && this.token != null && connectWebSocket) {
+			this.webSocket.connect().then(() => {
+				this.multiCall(requests, callback, errorCallback, showBusy, showDone, showError);
+			});
+			return;
+		}
 		const promise = new BimServerApiPromise();
 		let request = null;
 		if (requests.length == 1) {
@@ -631,6 +670,7 @@ export default class BimServerClient {
 							if (showedBusy) {
 								this.notifier.resetStatus();
 							}
+							errorsToReport.push(data.response.exception);
 						}
 					} else {
 						if (showDone) {
@@ -652,8 +692,12 @@ export default class BimServerClient {
 						}
 					});
 				}
-				if (errorsToReport.length > 0) {
-					errorCallback(errorsToReport);
+				if (errorsToReport.length > 0 && errorCallback) {
+					if (requests.length == 1) {
+						errorCallback(errorsToReport[0]); // with one request (and one error) -> call with an object
+					} else {
+						errorCallback(errorsToReport); // multiple requests, sends an array of errors
+					}
 				} else {
 					if (requests.length == 1) {
 						callback(data.response);
@@ -701,8 +745,8 @@ export default class BimServerClient {
 		return model;
 	}
 
-	callWithNoIndication(interfaceName, methodName, data, callback) {
-		return this.call(interfaceName, methodName, data, callback, null, false, false, false);
+	callWithNoIndication(interfaceName, methodName, data, callback, errorCallback) {
+		return this.call(interfaceName, methodName, data, callback, errorCallback, false, false, false);
 	}
 
 	callWithFullIndication(interfaceName, methodName, data, callback) {
@@ -745,14 +789,16 @@ export default class BimServerClient {
 		return isa;
 	}
 
-	initiateCheckin(project, deserializerOid, callback) {
-		this.call("ServiceInterface", "initiateCheckin", {
+	initiateCheckin(project, deserializerOid, callback, errorCallback) {
+		this.callWithNoIndication("ServiceInterface", "initiateCheckin", {
 			deserializerOid: deserializerOid,
 			poid: project.oid
 		}, (topicId) => {
 			if (callback != null) {
 				callback(topicId);
 			}
+		}, (error) => {
+			errorCallback(error);
 		});
 	}
 
@@ -826,7 +872,6 @@ export default class BimServerClient {
 				const formData = new FormData();
 				formData.append("action", "file");
 				formData.append("token", this.token);
-				file.type = schema.contentType;
 
 				const blob = new Blob([file], {
 					type: schema.contentType
@@ -855,7 +900,29 @@ export default class BimServerClient {
 			if (errorCallback != null) {
 				errorCallback();
 			}
+		}, true, false, true, false);
+	}
+	
+	callWithWebsocket(interfaceName, methodName, data) {
+		var promise = new Promise((resolve, reject) => {
+			var id = this.idCounter++;
+			this.websocketCalls.set(id, (response) => {
+				resolve(response.response.result);
+			});
+			var request = {
+				id: id,
+				request: {
+					interface: interfaceName,
+					method: methodName,
+					parameters: data
+				}
+			};
+			if (this.token != null) {
+				request.token = this.token;
+			}
+			this.webSocket.send(request);
 		});
+		return promise;
 	}
 
 	/**
@@ -870,7 +937,7 @@ export default class BimServerClient {
 	 * @param {boolean} showError - Whether to show errors
 	 * 
 	 */
-	call(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true) {
+	call(interfaceName, methodName, data, callback, errorCallback, showBusy = true, showDone = false, showError = true, connectWebSocket = true) {
 		return this.multiCall([
 			[
 				interfaceName,
@@ -887,6 +954,6 @@ export default class BimServerClient {
 					errorCallback(data.exception);
 				}
 			}
-		}, errorCallback, showBusy, showDone, showError);
+		}, errorCallback, showBusy, showDone, showError, connectWebSocket);
 	}
 }
