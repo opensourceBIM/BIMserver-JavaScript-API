@@ -781,14 +781,14 @@ export class Model {
 				queries: []
 			};
 
-			types.forEach((type) => {
-				if (this.loadedTypes[type] && Object.getOwnPropertyNames(this.loadedTypes[type]).length !== 0) {
-					for (let oid in this.loadedTypes[type]) {
-						callback(this.loadedTypes[type][oid]);
+			types.forEach((t) => {
+				if (this.loadedTypes[t] && Object.getOwnPropertyNames(this.loadedTypes[t]).length !== 0) {
+					for (let oid in this.loadedTypes[t]) {
+						callback(this.loadedTypes[t][oid]);
 					}
 				} else {
 					query.queries.push({
-						type: type
+						type: t
 					});
 				}
 			});
@@ -807,27 +807,25 @@ export class Model {
 						});
 						this.bimServerApi.getJson(url, null, (data) => {
 							data.objects.forEach((object) => {
+								if (!this.loadedTypes[object._t]) { 
+									this.loadedTypes[object._t] = {} 
+								}
+								
 								if (this.objects[object._i]) {
 									// Hmm we are doing a query on type, but some objects have already loaded, let's use those instead
 									const wrapper = this.objects[object._i];
-									if (wrapper.object._s == 1) {
-										if (wrapper.isA(object._t)) {
-											this.loadedTypes[object._t][object._i] = wrapper;
-											callback(wrapper);
-										}
-									} else {
+									if (wrapper.object._s !== 1) {
 										// Replace the value with something that's LOADED
-										wrapper.object = object;
-										if (wrapper.isA(object._t)) {
-											this.loadedTypes[object._t][object._i] = wrapper;
-											callback(wrapper);
-										}
+										wrapper.object = object;	
+									}
+									if (wrapper.isA(object._t)) {
+										this.loadedTypes[object._t][object._i] = wrapper;
+										callback(wrapper);
 									}
 								} else {
 									const wrapper = this.createWrapper(object, object._t);
 									this.objects[object._i] = wrapper;
 									if (object._s == 1) {
-										if (!this.loadedTypes[object._t]) { this.loadedTypes[object._t] = {} }
 										this.loadedTypes[object._t][object._i] = wrapper;
 										callback(wrapper);
 									}
