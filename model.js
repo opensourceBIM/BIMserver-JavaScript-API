@@ -782,7 +782,7 @@ export class Model {
 			};
 
 			types.forEach((type) => {
-				if (this.loadedTypes[type] != null) {
+				if (this.loadedTypes[type] && Object.getOwnPropertyNames(this.loadedTypes[type]).length !== 0) {
 					for (let oid in this.loadedTypes[type]) {
 						callback(this.loadedTypes[type][oid]);
 					}
@@ -806,32 +806,30 @@ export class Model {
 							serializerOid: serializer.oid
 						});
 						this.bimServerApi.getJson(url, null, (data) => {
-							if (this.loadedTypes[type] == null) {
-								this.loadedTypes[type] = {};
-							}
-							data.objects.some((object) => {
-								if (this.objects[object._i] != null) {
+							data.objects.forEach((object) => {
+								if (this.objects[object._i]) {
 									// Hmm we are doing a query on type, but some objects have already loaded, let's use those instead
 									const wrapper = this.objects[object._i];
 									if (wrapper.object._s == 1) {
-										if (wrapper.isA(type)) {
-											this.loadedTypes[type][object._i] = wrapper;
-											return callback(wrapper);
+										if (wrapper.isA(object._t)) {
+											this.loadedTypes[object._t][object._i] = wrapper;
+											callback(wrapper);
 										}
 									} else {
 										// Replace the value with something that's LOADED
 										wrapper.object = object;
-										if (wrapper.isA(type)) {
-											this.loadedTypes[type][object._i] = wrapper;
-											return callback(wrapper);
+										if (wrapper.isA(object._t)) {
+											this.loadedTypes[object._t][object._i] = wrapper;
+											callback(wrapper);
 										}
 									}
 								} else {
 									const wrapper = this.createWrapper(object, object._t);
 									this.objects[object._i] = wrapper;
-									if (wrapper.isA(type) && object._s == 1) {
-										this.loadedTypes[type][object._i] = wrapper;
-										return callback(wrapper);
+									if (object._s == 1) {
+										if (!this.loadedTypes[object._t]) { this.loadedTypes[object._t] = {} }
+										this.loadedTypes[object._t][object._i] = wrapper;
+										callback(wrapper);
 									}
 								}
 							});
