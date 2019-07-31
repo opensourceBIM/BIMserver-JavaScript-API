@@ -908,6 +908,7 @@ export class BimServerClient {
 			this.user = data;
 			this.webSocket.connect(callback);
 		}, () => {
+			this.token = null;
 			if (errorCallback != null) {
 				errorCallback();
 			}
