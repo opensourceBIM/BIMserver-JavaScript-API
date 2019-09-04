@@ -32,7 +32,19 @@ export class BimServerApiWebSocket {
 				}
 			}
 			
-			const location = this.bimServerApi.baseUrl.toString().replace('http://', 'ws://').replace('https://', 'wss://') + "/stream";
+			// Concatenate in case of relative URL
+			let hostname = this.bimServerApi.baseUrl.toString();
+			if (!hostname.startsWith(window.location.protocol)) {
+				if (hostname.startsWith('//')) {
+					hostname = window.location.protocol + hostname;
+				} else if (hostname.startsWith('/')) {
+					hostname = window.location.origin + hostname;
+				} else {
+					hostname = window.location.href + hostname;
+				}
+			}
+
+			const location = hostname.replace('http://', 'ws://').replace('https://', 'wss://') + "/stream";
 			
 			try {
 				this._ws = new WebSocket(location);
