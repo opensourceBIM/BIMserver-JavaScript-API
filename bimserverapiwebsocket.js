@@ -34,7 +34,7 @@ export class BimServerApiWebSocket {
 			
 			// Concatenate in case of relative URL
 			let hostname = this.bimServerApi.baseUrl.toString();
-			if (!hostname.startsWith(window.location.protocol)) {
+			if (!hostname.startsWith("http:") && !hostname.startsWith("https:")) {
 				if (hostname.startsWith('//')) {
 					hostname = window.location.protocol + hostname;
 				} else if (hostname.startsWith('/')) {
