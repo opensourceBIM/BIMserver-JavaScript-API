@@ -1,10 +1,9 @@
 <?xml version="1.0"?>
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.opensourcebim</groupId>
   <artifactId>bimserverapi</artifactId>
-  <version>0.0.174-SNAPSHOT</version>
+  <version>0.0.174</version>
   <name>BIMServer JavaScript API</name>
   <description>JavaScript API for BIMserver</description>
   <url>https://github.com/opensourceBIM/BIMserver-JavaScript-API</url>
@@ -28,7 +27,7 @@
   <scm>
     <connection>scm:git:https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</connection>
     <developerConnection>scm:git:https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</developerConnection>
-    <tag>bimserverapi-0.0.167</tag>
+    <tag>bimserverapi-0.0.174</tag>
     <url>https://github.com/opensourceBIM/BIMserver-JavaScript-API.git</url>
   </scm>
   <issueManagement>
