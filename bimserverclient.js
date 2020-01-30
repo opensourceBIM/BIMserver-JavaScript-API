@@ -778,7 +778,9 @@ export class BimServerClient {
 		}
 
 		let subject = this.schemas[schema][typeSubject];
-		if (typeSubject == "GeometryInfo" || typeSubject == "GeometryData") {
+
+		// TODO duplicate code (also twice in model.js)
+		if (typeSubject === "GeometryInfo" || typeSubject === "GeometryData" || typeSubject === "Buffer") {
 			subject = this.schemas.geometry[typeSubject];
 		}
 

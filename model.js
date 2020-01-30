@@ -151,7 +151,7 @@ export class Model {
 
 	extendClass(wrapperClass, typeName) {
 		let realType = this.bimServerApi.schemas[this.schema][typeName];
-		if (typeName === "GeometryInfo" || typeName === "GeometryData") {
+		if (typeName === "GeometryInfo" || typeName === "GeometryData" || typeName === "Buffer") {
 			realType = this.bimServerApi.schemas.geometry[typeName];
 		}
 		realType.superclasses.forEach((typeName) => {
@@ -454,7 +454,7 @@ export class Model {
 		if (this.bimServerApi.classes[typeName] == null) {
 			let realType = this.bimServerApi.schemas[this.schema][typeName];
 			if (realType == null) {
-				if (typeName === "GeometryInfo" || typeName === "GeometryData") {
+				if (typeName === "GeometryInfo" || typeName === "GeometryData" || typeName === "Buffer") {
 					realType = this.bimServerApi.schemas.geometry[typeName];
 				}
 				if (realType == null) {
