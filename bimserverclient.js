@@ -3,6 +3,7 @@ import {BimServerApiWebSocket} from './bimserverapiwebsocket.js';
 import {geometry} from './geometry.js';
 import {ifc2x3tc1} from './ifc2x3tc1.js';
 import {ifc4} from './ifc4.js';
+import {ifc4x3} from './ifc4x3.js';
 import {Model} from './model.js';
 import {translations} from './translations_en.js';
 
@@ -110,6 +111,10 @@ export class BimServerClient {
 
 				this.schemas.ifc4 = ifc4.classes;
 				this.addSubtypesToSchema(this.schemas.ifc4);
+
+				this.schemas.ifc4x3 = ifc4x3.classes;
+				this.addSubtypesToSchema(this.schemas.ifc4x3);
+
 
 				if (callback != null) {
 					callback(this, serverInfo);
